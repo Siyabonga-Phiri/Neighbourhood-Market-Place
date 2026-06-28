@@ -13,6 +13,8 @@ function Header() {
   const { user, logout } = context;
   const navigate = useNavigate();
 
+  const isAdmin = user?.role === "ROLE_ADMIN";
+
   return (
     <header className="header">
 
@@ -32,7 +34,7 @@ function Header() {
             <>
               <li><Link to="/dashboard">Dashboard</Link></li>
 
-              {/* ✅ NEW: Profile Button */}
+              {/* 👤 Profile */}
               <li>
                 <button
                   onClick={() => navigate(`/profile/${user.id}`)}
@@ -42,6 +44,19 @@ function Header() {
                 </button>
               </li>
 
+              {/* 🔥 ADMIN BUTTON (ONLY ADMIN) */}
+              {isAdmin && (
+                <li>
+                  <button
+                    onClick={() => navigate("/admin")}
+                    className="admin-btn"
+                  >
+                    Admin Panel
+                  </button>
+                </li>
+              )}
+
+              {/* Logout */}
               <li>
                 <button onClick={logout}>
                   Logout

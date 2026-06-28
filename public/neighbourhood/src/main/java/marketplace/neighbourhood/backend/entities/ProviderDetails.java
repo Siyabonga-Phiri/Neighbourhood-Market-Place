@@ -1,6 +1,6 @@
 package marketplace.neighbourhood.backend.entities;
 
-import java.util.List;
+//import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
