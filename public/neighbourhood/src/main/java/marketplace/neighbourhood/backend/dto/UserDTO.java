@@ -11,6 +11,7 @@ public class UserDTO {
 
     public ProviderDetails providerDetails;
     public String profileImage;
+    public String bio;
 
     // BOOKINGS
     public long acceptedBookings;
@@ -34,6 +35,7 @@ public class UserDTO {
         this.role = user.getRole().name();
         this.providerDetails = provider;
         this.profileImage = user.getProfileImage();
+        this.bio = user.getBio();
 
         this.acceptedBookings = acceptedBookings;
         this.totalBookings = totalBookings;

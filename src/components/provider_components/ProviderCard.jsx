@@ -20,7 +20,12 @@ function ProviderCard({ provider, currentUserId, onDelete }) {
 
   const isAvailable = provider.available === true;
 
-  // 🔥 OWNERSHIP CHECK (safer fallback)
+  // =========================
+  // IDs (FIXED)
+  // =========================
+
+  const serviceId = provider.id; // ✅ SERVICE ID (IMPORTANT FIX)
+
   const providerOwnerId =
     provider.providerId ||
     provider.providerUserId ||
@@ -32,7 +37,7 @@ function ProviderCard({ provider, currentUserId, onDelete }) {
     <div className="provider-card">
 
       {/* ========================= */}
-      {/* IMAGE SECTION (NEW) */}
+      {/* IMAGE */}
       {/* ========================= */}
       {provider.imageURL && (
         <div className="provider-image-container">
@@ -113,16 +118,22 @@ function ProviderCard({ provider, currentUserId, onDelete }) {
         {isOwner && (
           <div className="owner-actions">
 
+            {/* ========================= */}
+            {/* FIXED EDIT */}
+            {/* ========================= */}
             <button
               className="edit-btn"
-              onClick={() => navigate(`/services/edit/${providerOwnerId}`)}
+              onClick={() => navigate(`/services/edit/${serviceId}`)}
             >
               ✏️ Edit Service
             </button>
 
+            {/* ========================= */}
+            {/* FIXED DELETE */}
+            {/* ========================= */}
             <button
               className="delete-btn"
-              onClick={() => onDelete(providerOwnerId)}
+              onClick={() => onDelete(serviceId)}
             >
               🗑 Delete Service
             </button>

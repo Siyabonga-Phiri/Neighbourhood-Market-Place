@@ -42,7 +42,7 @@ public class Persona {
 
     @Column(name = "profile_picture")
     private String profileImage;
-
+    private String bio;
   
     @Column(nullable = false)
     private String password;
@@ -160,5 +160,13 @@ public void setPhoneNumber(String phoneNumber) {
 
 public void setRequests(List<Request> requests) {
     this.requests = requests;
+}
+public String getBio() {
+    return bio;
+}
+
+
+public void setBio(String bio) {
+    this.bio = bio;
 }
 }

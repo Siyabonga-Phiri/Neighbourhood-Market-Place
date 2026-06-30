@@ -99,8 +99,8 @@ export default function HomePage() {
           {/* Providers */}
           {user?.role === "ROLE_PROVIDER" && (
             <>
-              <button onClick={() => navigate("/provider/dashboard")}>
-                Provider Dashboard
+              <button onClick={() => navigate("/request")}>
+                Create Request
               </button>
 
               <button onClick={() => navigate("/services/create")}>

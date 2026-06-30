@@ -128,4 +128,26 @@ public Persona updateProfileImage(
     return userRepository.save(user);
 
 }
+// =====================================================
+// UPDATE PROFILE BIO
+// =====================================================
+
+@PutMapping("/profile/{id}")
+public Persona updateProfile(
+        @PathVariable Long id,
+        @RequestBody Map<String,String> body
+){
+
+    Persona user = userRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+
+
+    user.setBio(
+            body.get("bio")
+    );
+
+
+    return userRepository.save(user);
+
+}
 }

@@ -144,7 +144,7 @@ function CreateService() {
 
             if (response.ok) {
                 alert(isEditMode ? "Service updated!" : "Service created!");
-                navigate("/provider/dashboard");
+                navigate("/");
             } else {
                 alert("Failed to save service");
             }

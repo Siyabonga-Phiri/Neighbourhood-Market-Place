@@ -1,363 +1,424 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { AuthContext } from "./context/AuthContext";
 
 export default function Profile() {
+  const { userId } = useParams();
+  const navigate = useNavigate();
 
-    const { userId } = useParams();
-    const navigate = useNavigate();
+  const { user } = useContext(AuthContext);
 
-    const [profile, setProfile] = useState(null);
-    const [requests, setRequests] = useState([]);
-    const [services, setServices] = useState([]);
-    const [bookingsAsProvider, setBookingsAsProvider] = useState([]);
-    const [bookingsAsClient, setBookingsAsClient] = useState([]);
-    const [activeTab, setActiveTab] = useState("overview");
-    const [loading, setLoading] = useState(true);
+  const [profile, setProfile] = useState(null);
 
-    // =========================
-    // NEW: IMAGE STATES
-    // =========================
-    const [image, setImage] = useState(null);
-    const [uploading, setUploading] = useState(false);
+  const [requests, setRequests] = useState([]);
 
-    useEffect(() => {
-        fetchProfile();
-    }, [userId]);
+  const [services, setServices] = useState([]);
 
-    const fetchProfile = async () => {
+  const [bookingsAsProvider, setBookingsAsProvider] = useState([]);
 
-        try {
-            setLoading(true);
+  const [bookingsAsClient, setBookingsAsClient] = useState([]);
 
-            if (!userId) return;
+  const [activeTab, setActiveTab] = useState("requests");
 
-            // PROFILE
-            const profileRes = await fetch(
-                `http://localhost:8081/api/users/profile/${userId}`
-            );
+  const [loading, setLoading] = useState(true);
 
-            const profileData = await profileRes.json();
-            setProfile(profileData || null);
+  const [image, setImage] = useState(null);
 
-            // REQUESTS
-            const requestRes = await fetch(
-                `http://localhost:8081/api/requests/user/${userId}`
-            );
+  const [uploading, setUploading] = useState(false);
 
-            const requestData = await requestRes.json();
-            setRequests(Array.isArray(requestData) ? requestData : []);
+  const [editing, setEditing] = useState(false);
 
-            // CLIENT BOOKINGS
-            const clientBookingRes = await fetch(
-                `http://localhost:8081/api/bookings/user/${userId}`
-            );
+  const [bio, setBio] = useState("");
 
-            const clientData = await clientBookingRes.json();
-            setBookingsAsClient(Array.isArray(clientData) ? clientData : []);
+  const isOwner = user?.id == userId;
 
-            // PROVIDER LOGIC
-            const providerId = profileData?.id;
+  useEffect(() => {
+    fetchProfile();
+  }, [userId]);
 
-            if (providerId) {
+  const fetchProfile = async () => {
+    try {
+      setLoading(true);
 
-                const serviceRes = await fetch(
-                    `http://localhost:8081/api/services/provider/${providerId}`
-                );
+      const profileRes = await fetch(
+        `http://localhost:8081/api/users/profile/${userId}`,
+      );
 
-                const serviceData = await serviceRes.json();
-                setServices(Array.isArray(serviceData) ? serviceData : []);
+      const profileData = await profileRes.json();
 
-                const providerBookingRes = await fetch(
-                    `http://localhost:8081/api/bookings/provider/${providerId}`
-                );
+      setProfile(profileData);
 
-                const providerData = await providerBookingRes.json();
-                setBookingsAsProvider(Array.isArray(providerData) ? providerData : []);
-            }
+      setBio(profileData.bio || "");
 
-        } catch (err) {
-            console.error("Profile load error:", err);
-        } finally {
-            setLoading(false);
-        }
-    };
+      const requestRes = await fetch(
+        `http://localhost:8081/api/requests/user/${userId}`,
+      );
 
-    // =========================
-    // NEW: IMAGE UPLOAD
-    // =========================
-    const handleImageUpload = async () => {
+      const requestData = await requestRes.json();
 
-        if (!image) return;
+      setRequests(Array.isArray(requestData) ? requestData : []);
 
-        try {
-            setUploading(true);
+      const serviceRes = await fetch(
+        `http://localhost:8081/api/services/provider/${userId}`,
+      );
 
-            const formData = new FormData();
-            formData.append("image", image);
+      const serviceData = await serviceRes.json();
 
-            const uploadRes = await fetch(
-                "http://localhost:8081/api/upload/image",
-                {
-                    method: "POST",
-                    body: formData
-                }
-            );
+      setServices(Array.isArray(serviceData) ? serviceData : []);
 
-            const uploadData = await uploadRes.json();
+      const clientBookingRes = await fetch(
+        `http://localhost:8081/api/bookings/user/${userId}`,
+      );
 
-            await fetch(
-                `http://localhost:8081/api/users/profile-image/${userId}`,
-                {
-                    method: "PUT",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        profileImage: uploadData.imageUrl
-                    })
-                }
-            );
+      const clientData = await clientBookingRes.json();
 
-            // refresh profile so image appears everywhere
-            await fetchProfile();
+      setBookingsAsClient(Array.isArray(clientData) ? clientData : []);
 
-        } catch (err) {
-            console.error("Image upload failed:", err);
-        } finally {
-            setUploading(false);
-        }
-    };
+      const providerBookingRes = await fetch(
+        `http://localhost:8081/api/bookings/provider/${userId}`,
+      );
 
-    const isAccepted = (status) =>
-        status?.toUpperCase?.() === "ACCEPTED";
+      const providerData = await providerBookingRes.json();
 
-    const isProvider = Boolean(
-        profile?.id && (services.length > 0 || bookingsAsProvider.length > 0)
+      setBookingsAsProvider(Array.isArray(providerData) ? providerData : []);
+    } catch (err) {
+      console.error("Profile error:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleImageUpload = async () => {
+    if (!image) return;
+
+    try {
+      setUploading(true);
+
+      const formData = new FormData();
+
+      formData.append("image", image);
+
+      const uploadRes = await fetch("http://localhost:8081/api/upload/image", {
+        method: "POST",
+        body: formData,
+      });
+
+      const uploadData = await uploadRes.json();
+
+      await fetch(
+        `http://localhost:8081/api/users/profile-image/${userId}`,
+
+        {
+          method: "PUT",
+
+          headers: {
+            "Content-Type": "application/json",
+          },
+
+          body: JSON.stringify({
+            profileImage: uploadData.imageUrl,
+          }),
+        },
+      );
+
+      fetchProfile();
+    } catch (err) {
+      console.error("Image upload failed", err);
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const saveBio = async () => {
+    await fetch(
+      `http://localhost:8081/api/users/profile/${userId}`,
+
+      {
+        method: "PUT",
+
+        headers: {
+          "Content-Type": "application/json",
+        },
+
+        body: JSON.stringify({
+          bio: bio,
+        }),
+      },
     );
 
-    const activeProviderJobs =
-        bookingsAsProvider.filter(b => isAccepted(b.status));
+    setEditing(false);
 
-    const activeClientJobs =
-        bookingsAsClient.filter(b => isAccepted(b.status));
+    fetchProfile();
+  };
 
-    if (loading) return <p>Loading profile...</p>;
-    if (!profile) return <p>User not found</p>;
+  const isAccepted = (status) => status?.toUpperCase?.() === "ACCEPTED";
 
-    return (
-        <div className="profile-container">
+  const activeProviderJobs = bookingsAsProvider.filter((b) =>
+    isAccepted(b.status),
+  );
 
-            {/* HEADER */}
-            <div className="profile-header">
+  const activeClientJobs = bookingsAsClient.filter((b) => isAccepted(b.status));
 
-                {/* =========================
-                    AVATAR (UPDATED WITH IMAGE)
-                ========================= */}
-                <div className="profile-avatar">
+  if (loading) return <p>Loading profile...</p>;
 
-                    {profile.profileImage ? (
-                        <img
-                            src={profile.profileImage}
-                            alt="profile"
-                            style={{ width: "60px", height: "60px", borderRadius: "50%" }}
-                        />
-                    ) : (
-                        <>
-                            {profile.firstName?.charAt(0)}
-                            {profile.lastName?.charAt(0)}
-                        </>
-                    )}
+  if (!profile) return <p>User not found</p>;
 
+  return (
+    <div className="profile-container">
+      <div className="profile-header">
+        <div className="profile-avatar">
+          {profile.profileImage ? (
+            <img
+              src={profile.profileImage}
+              alt="profile"
+              style={{
+                width: "60px",
+
+                height: "60px",
+
+                borderRadius: "50%",
+              }}
+            />
+          ) : (
+            <>
+              {profile.firstName?.charAt(0)}
+
+              {profile.lastName?.charAt(0)}
+            </>
+          )}
+        </div>
+
+        <div>
+          <h1>
+            {profile.firstName}
+
+            {profile.lastName}
+          </h1>
+
+          <p>{profile.location}</p>
+
+          <p className="email">{profile.email}</p>
+
+          <p>{profile.bio || "No bio added"}</p>
+
+          {isOwner && !editing && (
+            <button onClick={() => setEditing(true)}>Edit Profile</button>
+          )}
+
+          {isOwner && editing && (
+            <div className="edit-profile-box">
+              <textarea
+                value={bio}
+                onChange={(e) => setBio(e.target.value)}
+                placeholder="Write your bio"
+              />
+
+              <button onClick={saveBio}>Save Bio</button>
+
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => setImage(e.target.files[0])}
+              />
+
+              <button onClick={handleImageUpload} disabled={uploading}>
+                {uploading ? "Uploading..." : "Upload Picture"}
+              </button>
+            </div>
+          )}
+
+          {isOwner && (
+            <div className="profile-stats">
+              <p>
+                Requests:
+                {requests.length}
+              </p>
+
+              <p>
+                Services:
+                {services.length}
+              </p>
+
+              <p>
+                Client Jobs:
+                {bookingsAsClient.length}
+              </p>
+
+              <p>
+                Provider Jobs:
+                {bookingsAsProvider.length}
+              </p>
+            </div>
+          )}
+        </div>
+      </div>
+
+      <div className="profile-tabs">
+        {isOwner && (
+          <button onClick={() => setActiveTab("overview")}>Overview</button>
+        )}
+
+        <button onClick={() => setActiveTab("requests")}>
+          {isOwner ? "My Requests" : "Requests"}
+        </button>
+
+        {profile.role === "ROLE_PROVIDER" && (
+          <button onClick={() => setActiveTab("services")}>
+            {isOwner ? "My Services" : "Services Offered"}
+          </button>
+        )}
+
+        {isOwner && (
+          <button onClick={() => setActiveTab("activity")}>Activity</button>
+        )}
+      </div>
+
+      <div className="profile-content">
+        {activeTab === "overview" && isOwner && (
+          <div>
+            <p>
+              Requests Posted:
+              {requests.length}
+            </p>
+
+            <p>
+              Services Offered:
+              {services.length}
+            </p>
+
+            <p>
+              Active Client Jobs:
+              {activeClientJobs.length}
+            </p>
+
+            <p>
+              Active Provider Jobs:
+              {activeProviderJobs.length}
+            </p>
+          </div>
+        )}
+
+        {activeTab === "requests" && (
+          <div>
+            {requests.length === 0 ? (
+              <p>No requests yet</p>
+            ) : (
+              requests.map((r) => (
+                <div key={r.id} className="card">
+                  <h3
+                    onClick={() => navigate(`/requests/${r.id}`)}
+                    style={{
+                      cursor: "pointer",
+                    }}
+                  >
+                    {r.title}
+                  </h3>
+
+                  <p>{r.description}</p>
+
+                  <p>Budget: R{r.budget}</p>
+
+                  <p>
+                    Status:
+                    {r.status}
+                  </p>
                 </div>
+              ))
+            )}
+          </div>
+        )}
 
-                <div>
+        {activeTab === "services" && profile.role === "ROLE_PROVIDER" && (
+          <div>
+            {services.length === 0 ? (
+              <p>No services yet</p>
+            ) : (
+              services.map((s) => (
+                <div key={s.id} className="card">
+                  <h3
+                    onClick={() => navigate(`/services/${s.id}`)}
+                    style={{
+                      cursor: "pointer",
+                    }}
+                  >
+                    {s.title}
+                  </h3>
 
-                    <h1>
-                        {profile.firstName} {profile.lastName}
-                    </h1>
+                  <p>{s.description}</p>
 
-                    <p>{profile.location}</p>
+                  <p>Price: R{s.price}</p>
+                </div>
+              ))
+            )}
+          </div>
+        )}
 
-                    <p className="role-badge">
-                        {isProvider ? "PROVIDER" : "CLIENT"}
+        {activeTab === "activity" && isOwner && (
+          <div>
+            <h3>As Client</h3>
+
+            {bookingsAsClient.map((b) => (
+              <div key={b.id} className="card">
+                <h3>{b.requestTitle}</h3>
+
+                <p>
+                  Status:
+                  {b.status}
+                </p>
+
+                {isAccepted(b.status) && (
+                  <div className="success-text">
+                    <p>✔ Active Job</p>
+
+                    <p>
+                      Provider:
+                      {b.provider?.name || "No provider"}
                     </p>
 
-                    <p className="email">{profile.email}</p>
-
-                    {/* =========================
-                        NEW: IMAGE UPLOAD UI
-                    ========================= */}
-                    <input
-                        type="file"
-                        accept="image/*"
-                        onChange={(e) => setImage(e.target.files[0])}
-                    />
-
-                    <button
-                        onClick={handleImageUpload}
-                        disabled={uploading}
-                    >
-                        {uploading ? "Uploading..." : "Upload Picture"}
-                    </button>
-
-                    {/* STATS (UNCHANGED) */}
-                    <div className="profile-stats">
-
-                        {isProvider ? (
-                            <>
-                                <p>Services: {services.length}</p>
-                                <p>Active Jobs: {activeProviderJobs.length}</p>
-                                <p>Total Bookings: {bookingsAsProvider.length}</p>
-                            </>
-                        ) : (
-                            <>
-                                <p>My Requests: {requests.length}</p>
-                                <p>Accepted Jobs: {activeClientJobs.length}</p>
-                            </>
-                        )}
-
-                    </div>
-                </div>
-            </div>
-
-            {/* TABS (UNCHANGED) */}
-            <div className="profile-tabs">
-
-                <button onClick={() => setActiveTab("overview")}>
-                    Overview
-                </button>
-
-                <button onClick={() => setActiveTab("posts")}>
-                    {isProvider ? "Services" : "My Requests"}
-                </button>
-
-                <button onClick={() => setActiveTab("activity")}>
-                    Activity
-                </button>
-
-            </div>
-
-            {/* CONTENT (UNCHANGED) */}
-            <div className="profile-content">
-
-                {/* OVERVIEW */}
-                {activeTab === "overview" && (
-                    <div>
-                        {isProvider ? (
-                            <>
-                                <p>Services: {services.length}</p>
-                                <p>Incoming Bookings: {bookingsAsProvider.length}</p>
-                                <p>Active Jobs: {activeProviderJobs.length}</p>
-                            </>
-                        ) : (
-                            <>
-                                <p>Requests: {requests.length}</p>
-                                <p>Accepted Jobs: {activeClientJobs.length}</p>
-                            </>
-                        )}
-                    </div>
+                    <p>
+                      Phone:
+                      {b.provider?.phone || "No phone"}
+                    </p>
+                  </div>
                 )}
+              </div>
+            ))}
 
-                {/* POSTS */}
-                {activeTab === "posts" && (
-                    <div>
+            {profile.role === "ROLE_PROVIDER" && (
+              <>
+                <h3>As Provider</h3>
 
-                        {isProvider ? (
+                {bookingsAsProvider.map((b) => (
+                  <div key={b.id} className="card">
+                    <h3>{b.requestTitle}</h3>
 
-                            services.length === 0 ? (
-                                <p>No services yet</p>
-                            ) : (
-                                services.map((s) => (
-                                    <div key={s.id} className="card">
-                                        <h3>{s.title}</h3>
-                                        <p>{s.description}</p>
-                                        <p>R{s.price}</p>
-                                    </div>
-                                ))
-                            )
+                    <p>
+                      Status:
+                      {b.status}
+                    </p>
 
-                        ) : (
+                    {isAccepted(b.status) && (
+                      <div className="success-text">
+                        <p>✔ Active Job</p>
 
-                            requests.length === 0 ? (
-                                <p>No requests yet</p>
-                            ) : (
-                                requests.map((r) => (
-                                    <div
-                                        key={r.id}
-                                        className="card"
-                                        onClick={() => navigate(`/requests/${r.id}`)}
-                                    >
-                                        <h3>{r.title}</h3>
-                                        <p>{r.service}</p>
-                                        <p>R{r.budget}</p>
-                                        <p>Status: {r.status}</p>
-                                    </div>
-                                ))
-                            )
+                        <p>
+                          Client:
+                          {b.customer?.name || "No client"}
+                        </p>
 
-                        )}
-
-                    </div>
-                )}
-
-                {/* ACTIVITY (UNCHANGED) */}
-                {activeTab === "activity" && (
-                    <div>
-
-                        {isProvider ? (
-
-                            bookingsAsProvider.length === 0 ? (
-                                <p>No activity yet</p>
-                            ) : (
-                                bookingsAsProvider.map((b) => (
-                                    <div key={b.id} className="card">
-
-                                        <h3>{b.requestTitle}</h3>
-                                        <p>{b.notes}</p>
-                                        <p>Status: {b.status}</p>
-
-                                        {isAccepted(b.status) && (
-                                            <div className="success-text">
-                                                <p>✔ Active Job</p>
-                                                <p>Client: {b.customer?.name}</p>
-                                                <p>Phone: {b.customer?.phone}</p>
-                                            </div>
-                                        )}
-
-                                    </div>
-                                ))
-                            )
-
-                        ) : (
-
-                            bookingsAsClient.length === 0 ? (
-                                <p>No activity yet</p>
-                            ) : (
-                                bookingsAsClient.map((b) => (
-                                    <div key={b.id} className="card">
-
-                                        <h3>{b.requestTitle}</h3>
-                                        <p>{b.notes}</p>
-                                        <p>Status: {b.status}</p>
-
-                                        {isAccepted(b.status) && (
-                                            <div className="success-text">
-                                                <p>✔ Active Job</p>
-                                                <p>Provider: {b.provider?.name}</p>
-                                                <p>Phone: {b.provider?.phone}</p>
-                                            </div>
-                                        )}
-
-                                    </div>
-                                ))
-                            )
-
-                        )}
-
-                    </div>
-                )}
-
-            </div>
-        </div>
-    );
+                        <p>
+                          Phone:
+                          {b.customer?.phone || "No phone"}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  );
 }
