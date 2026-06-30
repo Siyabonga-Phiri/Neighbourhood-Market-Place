@@ -4,11 +4,13 @@ import { useNavigate, useParams } from "react-router-dom";
 function CreateService() {
 
     const navigate = useNavigate();
-    const { id } = useParams(); // ✅ EDIT MODE DETECTOR
+    const { id } = useParams();
 
     const isEditMode = Boolean(id);
 
     const [providerId, setProviderId] = useState(null);
+
+    const [imageFile, setImageFile] = useState(null);
 
     const [service, setService] = useState({
         title: "",
@@ -16,17 +18,17 @@ function CreateService() {
         category: "",
         price: "",
         location: "",
-        available: true
+        available: true,
+        imageURL: ""   // ✅ FIXED: backend-consistent naming
     });
 
     // =========================
-    // FETCH LOGGED IN USER
+    // FETCH USER
     // =========================
     useEffect(() => {
         const fetchUser = async () => {
             try {
                 const token = localStorage.getItem("token");
-
                 if (!token) return;
 
                 const res = await fetch("http://localhost:8081/api/users/me", {
@@ -36,7 +38,6 @@ function CreateService() {
                 });
 
                 const data = await res.json();
-
                 setProviderId(data?.providerDetails?.id || null);
 
             } catch (error) {
@@ -48,7 +49,7 @@ function CreateService() {
     }, []);
 
     // =========================
-    // FETCH SERVICE IF EDIT MODE
+    // FETCH SERVICE (EDIT MODE)
     // =========================
     useEffect(() => {
 
@@ -57,13 +58,15 @@ function CreateService() {
         const fetchService = async () => {
             try {
                 const res = await fetch(`http://localhost:8081/api/services`);
-
                 const data = await res.json();
 
                 const existing = data.find(s => s.id === parseInt(id));
 
                 if (existing) {
-                    setService(existing);
+                    setService({
+                        ...existing,
+                        imageURL: existing.imageURL || ""
+                    });
                 }
 
             } catch (error) {
@@ -86,12 +89,44 @@ function CreateService() {
     };
 
     // =========================
-    // SUBMIT (CREATE OR UPDATE)
+    // UPLOAD IMAGE TO CLOUDINARY
+    // =========================
+    const uploadImage = async () => {
+        if (!imageFile) return service.imageURL;
+
+        const formData = new FormData();
+        formData.append("image", imageFile);
+
+        try {
+            const res = await fetch("http://localhost:8081/api/upload/image", {
+                method: "POST",
+                body: formData
+            });
+
+            const data = await res.json();
+
+            return data.imageUrl; // Cloudinary response
+        } catch (error) {
+            console.error("Image upload failed", error);
+            return "";
+        }
+    };
+
+    // =========================
+    // SUBMIT
     // =========================
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
+
+            // 1. upload image first (if any)
+            const uploadedImageURL = await uploadImage();
+
+            const finalService = {
+                ...service,
+                imageURL: uploadedImageURL || service.imageURL // ✅ FIXED KEY
+            };
 
             const url = isEditMode
                 ? `http://localhost:8081/api/services/${id}`
@@ -104,7 +139,7 @@ function CreateService() {
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify(service)
+                body: JSON.stringify(finalService)
             });
 
             if (response.ok) {
@@ -169,6 +204,22 @@ function CreateService() {
                     placeholder="Location"
                     required
                 />
+
+                {/* IMAGE INPUT */}
+                <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => setImageFile(e.target.files[0])}
+                />
+
+                {/* PREVIEW */}
+                {service.imageURL && (
+                    <img
+                        src={service.imageURL}
+                        alt="preview"
+                        style={{ width: "120px", marginTop: "10px" }}
+                    />
+                )}
 
                 <button type="submit">
                     {isEditMode ? "Update Service" : "Create Service"}

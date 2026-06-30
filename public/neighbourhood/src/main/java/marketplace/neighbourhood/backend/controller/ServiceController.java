@@ -17,22 +17,32 @@ public class ServiceController {
     @Autowired
     private ServiceListingService service;
 
-    // CREATE service
+    // =====================================================
+    // CREATE SERVICE (FIXED)
+    // =====================================================
     @PostMapping("/{providerId}")
     public ServiceListing createService(
             @PathVariable Long providerId,
-            @RequestBody ServiceListingDto serviceDTO) {
+            @RequestBody ServiceListingDto serviceDTO
+    ) {
+
+        // DEBUG
+        System.out.println("IMAGE URL RECEIVED: " + serviceDTO.getImageURL());
 
         return service.createService(providerId, serviceDTO);
     }
 
-    // GET all services
+    // =====================================================
+    // GET ALL SERVICES
+    // =====================================================
     @GetMapping
     public List<ServiceListingDto> getAllServices() {
         return service.getAllServices();
     }
 
-    // GET by category
+    // =====================================================
+    // GET BY CATEGORY
+    // =====================================================
     @GetMapping("/category/{category}")
     public List<ServiceListingDto> getByCategory(
             @PathVariable String category) {
@@ -40,7 +50,9 @@ public class ServiceController {
         return service.getByCategory(category);
     }
 
-    // GET by provider
+    // =====================================================
+    // GET BY PROVIDER
+    // =====================================================
     @GetMapping("/provider/{providerId}")
     public List<ServiceListingDto> getByProvider(
             @PathVariable Long providerId) {
@@ -48,7 +60,9 @@ public class ServiceController {
         return service.getByProvider(providerId);
     }
 
-    // UPDATE service
+    // =====================================================
+    // UPDATE SERVICE
+    // =====================================================
     @PutMapping("/{id}")
     public ServiceListing updateService(
             @PathVariable Long id,
@@ -57,7 +71,9 @@ public class ServiceController {
         return service.updateService(id, serviceDTO);
     }
 
-    // DELETE service
+    // =====================================================
+    // DELETE SERVICE
+    // =====================================================
     @DeleteMapping("/{id}")
     public void deleteService(@PathVariable Long id) {
         service.deleteService(id);

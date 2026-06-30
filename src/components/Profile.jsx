@@ -14,6 +14,12 @@ export default function Profile() {
     const [activeTab, setActiveTab] = useState("overview");
     const [loading, setLoading] = useState(true);
 
+    // =========================
+    // NEW: IMAGE STATES
+    // =========================
+    const [image, setImage] = useState(null);
+    const [uploading, setUploading] = useState(false);
+
     useEffect(() => {
         fetchProfile();
     }, [userId]);
@@ -49,7 +55,7 @@ export default function Profile() {
             const clientData = await clientBookingRes.json();
             setBookingsAsClient(Array.isArray(clientData) ? clientData : []);
 
-            // PROVIDER LOGIC (KEEP YOUR ORIGINAL MODEL)
+            // PROVIDER LOGIC
             const providerId = profileData?.id;
 
             if (providerId) {
@@ -76,11 +82,58 @@ export default function Profile() {
         }
     };
 
+    // =========================
+    // NEW: IMAGE UPLOAD
+    // =========================
+    const handleImageUpload = async () => {
+
+        if (!image) return;
+
+        try {
+            setUploading(true);
+
+            const formData = new FormData();
+            formData.append("image", image);
+
+            const uploadRes = await fetch(
+                "http://localhost:8081/api/upload/image",
+                {
+                    method: "POST",
+                    body: formData
+                }
+            );
+
+            const uploadData = await uploadRes.json();
+
+            await fetch(
+                `http://localhost:8081/api/users/profile-image/${userId}`,
+                {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        profileImage: uploadData.imageUrl
+                    })
+                }
+            );
+
+            // refresh profile so image appears everywhere
+            await fetchProfile();
+
+        } catch (err) {
+            console.error("Image upload failed:", err);
+        } finally {
+            setUploading(false);
+        }
+    };
+
     const isAccepted = (status) =>
         status?.toUpperCase?.() === "ACCEPTED";
 
-    // KEEP YOUR ORIGINAL LOGIC (DO NOT BREAK YOUR APP FLOW)
-    const isProvider = Boolean(profile?.id && services.length > 0 || bookingsAsProvider.length > 0);
+    const isProvider = Boolean(
+        profile?.id && (services.length > 0 || bookingsAsProvider.length > 0)
+    );
 
     const activeProviderJobs =
         bookingsAsProvider.filter(b => isAccepted(b.status));
@@ -97,9 +150,24 @@ export default function Profile() {
             {/* HEADER */}
             <div className="profile-header">
 
+                {/* =========================
+                    AVATAR (UPDATED WITH IMAGE)
+                ========================= */}
                 <div className="profile-avatar">
-                    {profile.firstName?.charAt(0)}
-                    {profile.lastName?.charAt(0)}
+
+                    {profile.profileImage ? (
+                        <img
+                            src={profile.profileImage}
+                            alt="profile"
+                            style={{ width: "60px", height: "60px", borderRadius: "50%" }}
+                        />
+                    ) : (
+                        <>
+                            {profile.firstName?.charAt(0)}
+                            {profile.lastName?.charAt(0)}
+                        </>
+                    )}
+
                 </div>
 
                 <div>
@@ -116,6 +184,23 @@ export default function Profile() {
 
                     <p className="email">{profile.email}</p>
 
+                    {/* =========================
+                        NEW: IMAGE UPLOAD UI
+                    ========================= */}
+                    <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => setImage(e.target.files[0])}
+                    />
+
+                    <button
+                        onClick={handleImageUpload}
+                        disabled={uploading}
+                    >
+                        {uploading ? "Uploading..." : "Upload Picture"}
+                    </button>
+
+                    {/* STATS (UNCHANGED) */}
                     <div className="profile-stats">
 
                         {isProvider ? (
@@ -135,7 +220,7 @@ export default function Profile() {
                 </div>
             </div>
 
-            {/* TABS */}
+            {/* TABS (UNCHANGED) */}
             <div className="profile-tabs">
 
                 <button onClick={() => setActiveTab("overview")}>
@@ -152,7 +237,7 @@ export default function Profile() {
 
             </div>
 
-            {/* CONTENT */}
+            {/* CONTENT (UNCHANGED) */}
             <div className="profile-content">
 
                 {/* OVERVIEW */}
@@ -215,7 +300,7 @@ export default function Profile() {
                     </div>
                 )}
 
-                {/* ACTIVITY */}
+                {/* ACTIVITY (UNCHANGED) */}
                 {activeTab === "activity" && (
                     <div>
 

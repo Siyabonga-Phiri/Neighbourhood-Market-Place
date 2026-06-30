@@ -9,6 +9,7 @@ public class ServiceListingDto {
     private String category;
     private double price;
     private String location;
+    private String imageURL;
 
     private boolean available;
 
@@ -128,4 +129,12 @@ public class ServiceListingDto {
     public void setProviderVerified(boolean providerVerified) {
         this.providerVerified = providerVerified;
     }
+    public String getImageURL() {
+    return imageURL;
+}
+
+
+public void setImageURL(String imageURL) {
+    this.imageURL = imageURL;
+}
 }

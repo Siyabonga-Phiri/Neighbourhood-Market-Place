@@ -12,12 +12,15 @@ function PostRequest() {
 
     const isEditMode = Boolean(id);
 
+    const [imageFile, setImageFile] = useState(null);
+
     const [request, setRequest] = useState({
         title: "",
         dateNeeded: "",
         description: "",
         location: "",
-        budget: ""
+        budget: "",
+        imageURL: ""      // ✅ NEW
     });
 
     // =========================
@@ -36,7 +39,10 @@ function PostRequest() {
 
                 const data = await res.json();
 
-                setRequest(data);
+                setRequest({
+                    ...data,
+                    imageURL: data.imageURL || ""
+                });
 
             } catch (err) {
                 console.error("Failed to load request", err);
@@ -58,7 +64,38 @@ function PostRequest() {
     };
 
     // =========================
-    // SUBMIT (CREATE OR UPDATE)
+    // UPLOAD IMAGE
+    // =========================
+    const uploadImage = async () => {
+
+        if (!imageFile) return request.imageURL;
+
+        const formData = new FormData();
+        formData.append("image", imageFile);
+
+        try {
+
+            const res = await fetch(
+                "http://localhost:8081/api/upload/image",
+                {
+                    method: "POST",
+                    body: formData
+                }
+            );
+
+            const data = await res.json();
+
+            return data.imageUrl;
+
+        } catch (err) {
+
+            console.error("Image upload failed", err);
+            return "";
+        }
+    };
+
+    // =========================
+    // SUBMIT
     // =========================
     const handleSubmit = async (e) => {
 
@@ -71,6 +108,16 @@ function PostRequest() {
 
         try {
 
+            // Upload first
+            const uploadedImageURL = await uploadImage();
+
+            const finalRequest = {
+                ...request,
+                imageURL: uploadedImageURL || request.imageURL
+            };
+
+            console.log("REQUEST PAYLOAD:", finalRequest);
+
             const url = isEditMode
                 ? `http://localhost:8081/api/requests/${id}/user/${user.id}`
                 : `http://localhost:8081/api/requests/${user.id}`;
@@ -82,7 +129,7 @@ function PostRequest() {
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify(request)
+                body: JSON.stringify(finalRequest)
             });
 
             if (!response.ok) {
@@ -140,6 +187,28 @@ function PostRequest() {
                         value={request.budget}
                         onChange={handleChange}
                     />
+
+                    {/* IMAGE */}
+                    <label>Attach Image</label>
+
+                    <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => setImageFile(e.target.files[0])}
+                    />
+
+                    {request.imageURL && (
+                        <img
+                            src={request.imageURL}
+                            alt="Preview"
+                            style={{
+                                width: "100%",
+                                maxWidth: "250px",
+                                marginTop: "10px",
+                                borderRadius: "8px"
+                            }}
+                        />
+                    )}
 
                 </div>
 

@@ -1,7 +1,5 @@
 package marketplace.neighbourhood.backend.dto;
 
-
-
 import java.time.LocalDate;
 
 public class RequestDTO {
@@ -14,6 +12,9 @@ public class RequestDTO {
     public String location;
     public String budget;
     public LocalDate dateNeeded;
+
+    // ✅ FIXED: aligned with the rest of the project
+    public String imageURL;
 
     public String status;
 
@@ -34,6 +35,7 @@ public class RequestDTO {
             String title,
             String service,
             String description,
+            String imageURL,
             String location,
             String budget,
             LocalDate dateNeeded,
@@ -49,6 +51,7 @@ public class RequestDTO {
         this.title = title;
         this.service = service;
         this.description = description;
+        this.imageURL = imageURL;
         this.location = location;
         this.budget = budget;
         this.dateNeeded = dateNeeded;

@@ -83,6 +83,7 @@ public class RequestService {
         request.setTitle(updated.getTitle());
         request.setService(updated.getService());
         request.setDescription(updated.getDescription());
+        request.setImageURL(updated.getImageURL());
         request.setBudget(updated.getBudget());
         request.setLocation(updated.getLocation());
         request.setDateNeeded(updated.getDateNeeded());
@@ -119,6 +120,7 @@ public class RequestService {
         dto.id = r.getId();
         dto.title = r.getTitle();
         dto.service = r.getService();
+        dto.imageURL = r.getImageURL();
         dto.description = r.getDescription();
         dto.budget = r.getBudget();
         dto.location = r.getLocation();

@@ -186,6 +186,19 @@ export default function RequestCard({ request, onDelete }) {
             </div>
 
             <h3>{request.title}</h3>
+            {request.imageURL && (
+    <img
+        src={request.imageURL}
+        alt={request.title}
+        style={{
+            width: "100%",
+            maxHeight: "220px",
+            objectFit: "cover",
+            borderRadius: "10px",
+            marginBottom: "10px"
+        }}
+    />
+)}
             <p>{request.service}</p>
             <p>{request.location}</p>
             <p>Budget: R{request.budget}</p>

@@ -31,6 +31,19 @@ function ProviderCard({ provider, currentUserId, onDelete }) {
   return (
     <div className="provider-card">
 
+      {/* ========================= */}
+      {/* IMAGE SECTION (NEW) */}
+      {/* ========================= */}
+      {provider.imageURL && (
+        <div className="provider-image-container">
+          <img
+            src={provider.imageURL}
+            alt={provider.title || "Service image"}
+            className="provider-image"
+          />
+        </div>
+      )}
+
       {/* HEADER */}
       <div className="provider-header">
 
@@ -47,7 +60,6 @@ function ProviderCard({ provider, currentUserId, onDelete }) {
       {/* MAIN INFO */}
       <div className="provider-info">
 
-        {/* 🔥 CLICKABLE PROVIDER NAME */}
         <h3
           className="provider-name-link"
           onClick={() => navigate(`/provider/${providerOwnerId}`)}
@@ -81,7 +93,6 @@ function ProviderCard({ provider, currentUserId, onDelete }) {
       {/* CONTACT + OWNER ACTIONS */}
       <div className="provider-actions">
 
-        {/* WhatsApp */}
         {whatsappNumber && (
           <a
             href={`https://wa.me/${whatsappNumber}`}
@@ -99,7 +110,6 @@ function ProviderCard({ provider, currentUserId, onDelete }) {
           </p>
         )}
 
-        {/* 🔥 OWNER ONLY BUTTONS */}
         {isOwner && (
           <div className="owner-actions">
 

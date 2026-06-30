@@ -21,7 +21,9 @@ public class ServiceListingService {
     @Autowired
     private ProviderProfileRepository providerRepository;
 
+    // =====================================================
     // CREATE SERVICE
+    // =====================================================
     public ServiceListing createService(Long providerId, ServiceListingDto dto) {
 
         ProviderDetails provider = providerRepository.findById(providerId)
@@ -36,16 +38,24 @@ public class ServiceListingService {
         service.setLocation(dto.getLocation());
         service.setAvailable(true);
 
-        // ✅ SOURCE OF TRUTH = Persona.id
+        // ✅ FIXED: correct image persistence
+        service.setImageURL(dto.getImageURL());
+
+        // SOURCE OF TRUTH = Persona.id
         service.setProviderUserId(provider.getUser().getId());
 
         System.out.println("PROVIDER USER ID: " + provider.getUser().getId());
         System.out.println("SAVED SERVICE PROVIDER ID: " + service.getProviderUserId());
+        System.out.println("IMAGE URL SAVED: " + service.getImageURL());
+
+         System.out.println("IMAGE = " + dto.getImageURL());
 
         return serviceRepository.save(service);
     }
 
-    // GET ALL
+    // =====================================================
+    // GET ALL SERVICES
+    // =====================================================
     public List<ServiceListingDto> getAllServices() {
         return serviceRepository.findAll()
                 .stream()
@@ -53,7 +63,9 @@ public class ServiceListingService {
                 .toList();
     }
 
+    // =====================================================
     // GET BY CATEGORY
+    // =====================================================
     public List<ServiceListingDto> getByCategory(String category) {
         return serviceRepository.findByCategory(category)
                 .stream()
@@ -61,7 +73,9 @@ public class ServiceListingService {
                 .toList();
     }
 
+    // =====================================================
     // GET BY PROVIDER USER ID
+    // =====================================================
     public List<ServiceListingDto> getByProvider(Long providerUserId) {
         return serviceRepository.findByProviderUserId(providerUserId)
                 .stream()
@@ -69,14 +83,16 @@ public class ServiceListingService {
                 .toList();
     }
 
-    // DELETE
+    // =====================================================
+    // DELETE SERVICE
+    // =====================================================
     public void deleteService(Long id) {
         serviceRepository.deleteById(id);
     }
 
-    // =========================
-    // FIXED DTO MAPPER
-    // =========================
+    // =====================================================
+    // DTO MAPPER (FIXED)
+    // =====================================================
     private ServiceListingDto convertToDto(ServiceListing service) {
 
         ServiceListingDto dto = new ServiceListingDto();
@@ -87,14 +103,18 @@ public class ServiceListingService {
         dto.setCategory(service.getCategory());
         dto.setPrice(service.getPrice());
         dto.setLocation(service.getLocation());
+
+        // ✅ FIXED: correct DB value (THIS WAS THE BUG)
+        dto.setImageURL(service.getImageURL());
+
         dto.setAvailable(service.isAvailable());
 
-        // ✅ ALWAYS SAFE (never null if DB is correct)
+        // provider reference
         dto.setProviderId(service.getProviderUserId());
 
-        // =========================
-        // OPTIONAL ENRICHMENT BLOCK
-        // =========================
+        // =====================================================
+        // OPTIONAL ENRICHMENT
+        // =====================================================
         try {
             ProviderDetails provider = providerRepository
                     .findByUserId(service.getProviderUserId())
@@ -108,33 +128,35 @@ public class ServiceListingService {
                 dto.setProviderPhoneNumber(user.getPhoneNumber());
                 dto.setProviderCategory(provider.getCategory());
                 dto.setYearsExperience(provider.getYearsExperience());
+                dto.setImageURL(service.getImageURL());
                 dto.setProviderVerified(Boolean.TRUE.equals(provider.getVerified()));
             }
 
         } catch (Exception e) {
-            // 🔒 NEVER break feed if enrichment fails
             System.out.println("Provider enrichment failed: " + e.getMessage());
         }
 
         return dto;
     }
+
+    // =====================================================
     // UPDATE SERVICE
-public ServiceListing updateService(Long id, ServiceListingDto dto) {
+    // =====================================================
+    public ServiceListing updateService(Long id, ServiceListingDto dto) {
 
-    ServiceListing service = serviceRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Service not found"));
+        ServiceListing service = serviceRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Service not found"));
 
-    service.setTitle(dto.getTitle());
-    service.setDescription(dto.getDescription());
-    service.setCategory(dto.getCategory());
-    service.setPrice(dto.getPrice());
-    service.setLocation(dto.getLocation());
-    service.setAvailable(dto.isAvailable());
+        service.setTitle(dto.getTitle());
+        service.setDescription(dto.getDescription());
+        service.setCategory(dto.getCategory());
+        service.setPrice(dto.getPrice());
+        service.setLocation(dto.getLocation());
+        service.setAvailable(dto.isAvailable());
 
-    // IMPORTANT:
-    // Do NOT change providerUserId here.
-    // A service should always belong to the same provider.
+        // ✅ FIXED: preserve image updates
+        service.setImageURL(dto.getImageURL());
 
-    return serviceRepository.save(service);
-}
+        return serviceRepository.save(service);
+    }
 }

@@ -1,6 +1,7 @@
 package marketplace.neighbourhood.backend.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -105,4 +106,26 @@ public class UserController {
     public UserDTO getProfile(@PathVariable Long userId) {
         return userService.getUserProfile(userId);
     }
+    // =====================================================
+// UPDATE PROFILE IMAGE
+// =====================================================
+
+@PutMapping("/profile-image/{id}")
+public Persona updateProfileImage(
+        @PathVariable Long id,
+        @RequestBody Map<String,String> body
+){
+
+    Persona user = userRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+
+
+    user.setProfileImage(
+            body.get("profileImage")
+    );
+
+
+    return userRepository.save(user);
+
+}
 }

@@ -15,6 +15,8 @@ public class ServiceListing {
     private double price;
     private boolean available;
     private String location;
+    @Column(length = 1000)
+    private String imageURL;
 
     // ✅ NEW SINGLE SOURCE OF TRUTH
     @Column(name = "provider_user_id")
@@ -84,5 +86,12 @@ public class ServiceListing {
 
     public void setProviderUserId(Long providerUserId) {
         this.providerUserId = providerUserId;
+    }
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
     }
 }
