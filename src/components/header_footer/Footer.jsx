@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import "./header_styles.css";
 
 function Footer() {
   return (

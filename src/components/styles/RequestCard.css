@@ -1,111 +1,325 @@
-.request-card {
+/* =========================
+   REQUEST CARD - COMPACT MODERN LAYOUT
+========================= */
 
-    background: white;
+.request-card{
+    width:100%;
+    background:white;
+    border-radius:18px;
+    overflow:hidden;
 
-    border-radius: 16px;
+    display:flex;
+    box-shadow:0 8px 22px rgba(0,0,0,.08);
 
-    padding: 24px;
-
-    margin-bottom: 20px;
-
-    border: 1px solid #e5e7eb;
-
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-
-    transition: transform 0.2s ease,
-                box-shadow 0.2s ease;
-
+    margin-bottom:14px;
+    min-height:170px;
 }
 
+/* =========================
+   IMAGE SECTION
+========================= */
 
-.request-card:hover {
-
-    transform: translateY(-3px);
-
-    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-
+.request-image{
+    width:140px;
+    min-width:140px;
+    height:auto;
+    background:#f3f3f3;
 }
 
-
-
-.request-badge {
-
-    display: inline-block;
-
-    background: #2563eb;
-
-    color: white;
-
-    font-size: 12px;
-
-    font-weight: 700;
-
-    padding: 6px 12px;
-
-    border-radius: 20px;
-
-    margin-bottom: 15px;
-
-    text-transform: uppercase;
-
+.request-image img{
+    width:100%;
+    height:100%;
+    min-height:170px;
+    object-fit:cover;
+    display:block;
 }
 
-
-
-.request-card h3 {
-
-    margin: 8px 0;
-
-    font-size: 22px;
-
-    color: #111827;
-
+.request-placeholder{
+    width:100%;
+    height:100%;
+    min-height:170px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:28px;
+    color:#999;
 }
 
+/* =========================
+   CONTENT AREA
+========================= */
 
-
-.request-card p {
-
-    margin: 8px 0;
-
-    color: #4b5563;
-
-    font-size: 15px;
-
+.request-content{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    padding:10px 12px;
+    gap:6px;
 }
 
+/* =========================
+   HEADER
+========================= */
 
-
-.request-card button {
-
-    margin-top: 18px;
-
-    width: 100%;
-
-    padding: 12px;
-
-    border: none;
-
-    border-radius: 10px;
-
-    background: #16a34a;
-
-    color: white;
-
-    font-size: 16px;
-
-    font-weight: 600;
-
-    cursor: pointer;
-
-    transition: background 0.2s ease;
-
+.request-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
 }
 
+.request-badge{
+    background:#0F5C55;
+    color:white;
+    padding:4px 10px;
+    border-radius:18px;
+    font-size:11px;
+    font-weight:800;
+}
 
+.status-badge{
+    padding:4px 10px;
+    border-radius:18px;
+    font-size:11px;
+    font-weight:800;
+}
 
-.request-card button:hover {
+.status-badge.open{
+    background:#B7F34A;
+    color:#083B37;
+}
 
-    background: #15803d;
+.status-badge.closed{
+    background:#FEE2E2;
+    color:#991B1B;
+}
 
+/* =========================
+   TITLE
+========================= */
+
+.request-content h3{
+    margin:0;
+    font-size:18px;
+    font-weight:800;
+    color:#0F5C55;
+    line-height:1.2;
+}
+
+/* =========================
+   META INFO ROW
+========================= */
+
+.request-meta{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    font-size:19.5px;
+    color:#36534B;
+}
+
+.request-meta span{
+    background:#f6f6f6;
+    padding:3px 8px;
+    border-radius:10px;
+}
+
+/* =========================
+   DESCRIPTION
+========================= */
+
+.request-description{
+    margin:0;
+    font-size:17px;
+    color:#36534B;
+    line-height:1.3;
+
+    display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+}
+
+/* =========================
+   ACTION ROW
+========================= */
+
+.request-actions{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    margin-top:auto;
+}
+
+.profile-btn{
+    background:#0F5C55;
+    color:white;
+    border:none;
+    padding:7px 12px;
+    border-radius:20px;
+    font-size:13px;
+    font-weight:700;
+    cursor:pointer;
+}
+
+/* =========================
+   OWNER ACTIONS
+========================= */
+
+.owner-actions{
+    display:flex;
+    gap:6px;
+}
+
+.owner-actions button{
+    border:none;
+    padding:6px 10px;
+    border-radius:16px;
+    font-size:12px;
+    font-weight:700;
+    cursor:pointer;
+}
+
+.owner-actions button:first-child{
+    background:#B7F34A;
+    color:#083B37;
+}
+
+.owner-actions button:last-child{
+    background:#FEE2E2;
+    color:#991B1B;
+}
+
+/* =========================
+   PROPOSAL SECTION
+========================= */
+
+.proposal-section{
+    margin-top:8px;
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+}
+
+.proposal-section h4{
+    margin:0;
+    font-size:13px;
+    color:#0F5C55;
+}
+
+.proposal-section textarea{
+    min-height:55px;
+    padding:8px;
+    border-radius:10px;
+    border:1px solid #ddd;
+    font-size:13px;
+}
+
+.respond-btn{
+    background:#0F5C55;
+    color:white;
+    border:none;
+    padding:7px 12px;
+    border-radius:16px;
+    font-size:13px;
+    font-weight:700;
+}
+
+/* =========================
+   RESPONSES SECTION
+========================= */
+
+.responses-section{
+    margin-top:8px;
+    padding:10px;
+    background:#F8F4E8;
+    border-radius:12px;
+}
+
+.response-item{
+    background:white;
+    padding:8px;
+    border-radius:10px;
+    margin-top:6px;
+    font-size:12.5px;
+}
+
+/* response buttons */
+.response-actions{
+    display:flex;
+    gap:6px;
+    margin-top:6px;
+}
+
+.accept-btn{
+    background:#B7F34A;
+    border:none;
+    padding:6px 10px;
+    border-radius:14px;
+    font-size:12px;
+    font-weight:700;
+}
+
+.reject-btn{
+    background:#FEE2E2;
+    border:none;
+    padding:6px 10px;
+    border-radius:14px;
+    font-size:12px;
+    font-weight:700;
+}
+
+.whatsapp-btn{
+    background:#25D366;
+    color:white;
+    border:none;
+    padding:7px 12px;
+    border-radius:16px;
+    font-size:13px;
+    font-weight:700;
+}
+
+/* =========================
+   CLOSE BUTTON
+========================= */
+
+.close-request-btn{
+    margin-top:8px;
+    background:#991B1B;
+    color:white;
+    border:none;
+    padding:7px 12px;
+    border-radius:16px;
+    font-size:13px;
+    font-weight:700;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width:768px){
+
+    .request-card{
+        flex-direction:column;
+    }
+
+    .request-image{
+        width:100%;
+        min-width:100%;
+        height:160px;
+    }
+
+    .request-image img{
+        min-height:160px;
+    }
+
+    .request-actions{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .owner-actions{
+        width:100%;
+    }
 }

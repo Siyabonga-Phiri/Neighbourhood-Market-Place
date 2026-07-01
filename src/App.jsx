@@ -20,7 +20,7 @@ import ManageBookings from "./components/admin_components/ManageBookings";
 import ManageRequests from "./components/admin_components/ManageRequests";
 import ProtectedRoute from "./components/admin_components/ProtectedRoute";
 
-import "./App.css";
+//import "./App.css";
 
 function App() {
   return (

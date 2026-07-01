@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import "./ProviderCard.css";
 
 function ProviderCard({ provider, currentUserId, onDelete }) {
 

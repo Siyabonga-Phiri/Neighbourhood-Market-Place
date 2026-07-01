@@ -1,97 +1,708 @@
-.feed-page {
-  background: #f7f5f5;
-  min-height: 100vh;
+/* =========================
+   FEED PAGE
+========================= */
+
+
+* {
+
+    box-sizing:border-box;
+
 }
+
+
+
+.feed-page {
+
+    min-height:100vh;
+
+    width:100%;
+
+    overflow-x:hidden;
+
+    background:#F8F4E8;
+
+    padding-bottom:40px;
+
+    color:#123A36;
+
+}
+
+
+
+/* =========================
+   SEARCH HEADER
+========================= */
+
 
 .search-section {
-  text-align: center;
-  padding: 50px;
+
+
+    background:
+
+    linear-gradient(
+
+    180deg,
+
+    #F8F4E8,
+
+    #A8C477
+
+    );
+
+
+    padding:50px 30px;
+
+
+    text-align:center;
+
+
 }
+
+
 
 .search-section h1 {
-  font-size: 40px;
-  margin-bottom: 30px;
+
+
+    color:#0F5C55;
+
+
+    font-size:42px;
+
+
+    margin-bottom:30px;
+
+
 }
+
+
 
 .search-bar {
-  width: 800px;
-  margin: auto;
-  display: flex;
-  background: white;
-  border-radius: 40px;
-  overflow: hidden;
-  border: 1px solid #ddd;
+
+
+    width:100%;
+
+    max-width:900px;
+
+
+    margin:auto;
+
+
+    display:flex;
+
+
+    gap:15px;
+
+
 }
+
+
 
 .search-bar input,
+
 .search-bar select {
-  flex: 1;
-  border: none;
-  padding: 15px;
+
+
+    flex:1;
+
+
+    min-width:0;
+
+
+    padding:15px;
+
+
+    border-radius:30px;
+
+
+    border:1px solid #D8D2BC;
+
+
+    background:white;
+
+
+    font-size:15px;
+
+
+    outline:none;
+
+
 }
 
-.search-bar button {
-  margin: 8px;
-  padding: 10px 25px;
-  border: none;
-  border-radius: 25px;
-  background: #d9d9d9;
+
+
+
+
+/* =========================
+   FILTER BUTTONS
+========================= */
+
+
+.feed-type-filters {
+
+
+    display:flex;
+
+
+    justify-content:center;
+
+
+    gap:15px;
+
+
+    padding:25px;
+
+
+    flex-wrap:wrap;
+
+
 }
+
+
+
+.feed-type-filters button,
+
+.sidebar button {
+
+
+    background:white;
+
+
+    border:1px solid #D8D2BC;
+
+
+    padding:12px 25px;
+
+
+    border-radius:30px;
+
+
+    color:#123A36;
+
+
+    font-weight:600;
+
+
+    cursor:pointer;
+
+
+}
+
+
+
+.active-filter {
+
+
+    background:#B7F34A !important;
+
+
+    border-color:#B7F34A !important;
+
+
+    color:#083B37 !important;
+
+
+}
+
+
+
+
+
+
+/* =========================
+   MAIN CONTENT
+========================= */
+
 
 .feed-content {
-  display: flex;
-  gap: 30px;
-  padding: 40px;
+
+
+    width:100%;
+
+
+    max-width:1200px;
+
+
+    margin:auto;
+
+
+
+    display:grid;
+
+
+    grid-template-columns:
+
+    230px minmax(0,1fr);
+
+
+
+    gap:25px;
+
+
+    padding:20px;
+
+
 }
+
+
+
+
+
+/* =========================
+   SIDEBAR
+========================= */
+
 
 .sidebar {
-  width: 250px;
-  background: white;
-  padding: 20px;
-  border-radius: 20px;
-  border: 1px solid #ddd;
+
+
+    width:100%;
+
+
+    height:fit-content;
+
+
+    background:white;
+
+
+    padding:25px;
+
+
+    border-radius:25px;
+
+
+    box-shadow:
+
+    0 10px 25px rgba(0,0,0,.08);
+
+
 }
 
-.sidebar label {
-  display: block;
-  margin: 10px 0;
+
+
+.sidebar h4 {
+
+
+    color:#0F5C55;
+
+
 }
+
+
+
+.sidebar button {
+
+
+    width:100%;
+
+
+    margin-bottom:10px;
+
+
+}
+
+
+
+
+
+
+
+/* =========================
+   RESULTS AREA
+========================= */
+
 
 .providers-list {
-  flex: 1;
+
+
+    width:100%;
+
+
+    min-width:0;
+
+
+    display:flex;
+
+
+    flex-direction:column;
+
+
+    gap:20px;
+
+
 }
 
-.provider-card {
-  display: flex;
-  justify-content: space-between;
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 20px;
-  padding: 20px;
-  margin-bottom: 20px;
+
+
+.results-header {
+
+
+    background:white;
+
+
+    padding:15px 20px;
+
+
+    border-radius:20px;
+
+
+    box-shadow:
+
+    0 8px 20px rgba(0,0,0,.08);
+
+
 }
 
-.provider-image {
-  width: 150px;
-  height: 150px;
-  background: #ece6e6;
-  border-radius: 20px;
+
+
+.results-header h4 {
+
+
+    margin:0;
+
+
+    color:#0F5C55;
+
+
 }
 
-.provider-info {
-  flex: 1;
-  padding-left: 20px;
+
+
+
+
+
+
+/* =========================
+   FEED CARDS WRAPPER
+========================= */
+
+
+.feed-item-wrapper {
+
+
+    width:100%;
+
+
+    max-width:100%;
+
+
+    overflow:hidden;
+
+
+    position:relative;
+
+
+    background:white;
+
+
+    border-radius:25px;
+
+
+    padding:20px;
+
+
+    box-shadow:
+
+
+    0 10px 25px rgba(0,0,0,.08);
+
+
+    transition:.25s;
+
+
 }
 
-.provider-actions {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 20px;
+
+
+.feed-item-wrapper:hover {
+
+
+    transform:translateY(-3px);
+
+
 }
 
-.provider-actions button {
-  border: none;
-  border-radius: 20px;
-  padding: 10px 20px;
+
+
+
+
+/* Prevent long text overflow */
+
+
+.feed-item-wrapper h1,
+
+.feed-item-wrapper h2,
+
+.feed-item-wrapper h3,
+
+.feed-item-wrapper h4,
+
+.feed-item-wrapper p {
+
+
+    overflow-wrap:break-word;
+
+
+    word-break:break-word;
+
+
+}
+
+
+
+
+
+
+
+/* =========================
+   STATUS BADGES
+========================= */
+
+
+.business-badge {
+
+
+    position:absolute;
+
+
+    top:15px;
+
+
+    right:15px;
+
+
+    background:#B7F34A;
+
+
+    color:#083B37;
+
+
+    padding:8px 15px;
+
+
+    border-radius:30px;
+
+
+    font-weight:bold;
+
+
+}
+
+
+
+.closed-badge {
+
+
+    position:absolute;
+
+
+    top:15px;
+
+
+    right:15px;
+
+
+    background:#E5E7EB;
+
+
+    color:#374151;
+
+
+    padding:8px 15px;
+
+
+    border-radius:30px;
+
+
+    font-weight:bold;
+
+
+}
+
+
+
+
+.closed-request {
+
+
+    opacity:.7;
+
+
+}
+
+
+
+.active-deal {
+
+
+    border:2px solid #B7F34A;
+
+
+}
+
+
+
+
+
+/* =========================
+   EMPTY STATE
+========================= */
+
+
+.empty-state {
+
+
+    background:white;
+
+
+    padding:40px;
+
+
+    border-radius:25px;
+
+
+    text-align:center;
+
+
+}
+
+
+
+
+
+
+
+/* =========================
+   MOBILE
+========================= */
+
+
+@media(max-width:768px){
+
+
+
+.search-section {
+
+
+    padding:35px 15px;
+
+
+}
+
+
+
+.search-section h1 {
+
+
+    font-size:30px;
+
+
+}
+
+
+
+.search-bar {
+
+
+    flex-direction:column;
+
+
+}
+
+
+
+.feed-type-filters {
+
+
+    justify-content:flex-start;
+
+
+    overflow-x:auto;
+
+
+    flex-wrap:nowrap;
+
+
+}
+
+
+
+.feed-content {
+
+
+    display:block;
+
+
+    padding:15px;
+
+
+}
+
+
+
+.sidebar {
+
+
+    margin-bottom:20px;
+
+
+    overflow-x:auto;
+
+
+}
+
+
+
+.sidebar button {
+
+
+    width:auto;
+
+
+    display:inline-block;
+
+
+    margin-right:10px;
+
+
+}
+
+
+
+.providers-list {
+
+
+    width:100%;
+
+
+}
+
+
+
+.feed-item-wrapper {
+
+
+    padding:15px;
+
+
+}
+
+
+
+.business-badge,
+
+.closed-badge {
+
+
+    position:static;
+
+
+    display:inline-block;
+
+
+    margin-bottom:10px;
+
+
+}
+
+
 }

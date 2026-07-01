@@ -2,6 +2,8 @@ import { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { AuthContext } from "./context/AuthContext";
 
+import "./styles/Profile.css";
+
 export default function Profile() {
   const { userId } = useParams();
   const navigate = useNavigate();

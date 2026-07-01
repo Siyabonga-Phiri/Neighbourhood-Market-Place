@@ -4,6 +4,8 @@ import { AuthContext } from "./context/AuthContext";
 import api from "../api/axiosConfig";
 import "./styles/HomePage.css";
 
+
+
 const servicesList = [
   "Cleaning",
   "Plumbing",

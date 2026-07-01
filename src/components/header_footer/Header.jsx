@@ -2,6 +2,8 @@ import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
+import "./header_styles.css";
+
 function Header() {
 
   const context = useContext(AuthContext);

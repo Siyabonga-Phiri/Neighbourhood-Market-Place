@@ -2,6 +2,7 @@ import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import api from "../../api/axiosConfig";
+import "../styles/PostRequest.css"
 
 function BecomeProvider() {
 
@@ -146,7 +147,8 @@ function BecomeProvider() {
                         name="bio"
                         value={formData.bio}
                         onChange={handleChange}
-                        placeholder="Tell customers about your experience..."
+                        placeholder="Tell customers about your experience,
+qualifications and why they should hire you."
                         rows="5"
                         required
                     />
