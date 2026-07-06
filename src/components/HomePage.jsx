@@ -31,7 +31,7 @@ export default function HomePage() {
 
   const fetchProviders = async () => {
     try {
-      const res = await api.get("/providers");
+      const res = await api.get("/api/providers");
       setProviders(res.data);
     } catch (err) {
       console.log("Failed to load providers", err);
