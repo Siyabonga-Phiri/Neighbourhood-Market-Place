@@ -25,7 +25,7 @@ export default function FeedDashboard() {
         const token = localStorage.getItem("token");
         if (!token) return;
 
-        const res = await fetch("http://localhost:8081/api/users/me", {
+        const res = await fetch("{import.meta.env.VITE_API_URL}/api/users/me", {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -59,8 +59,8 @@ export default function FeedDashboard() {
       setLoading(true);
 
       const [servicesResponse, requestsResponse] = await Promise.all([
-        fetch("http://localhost:8081/api/services"),
-        fetch("http://localhost:8081/api/requests")
+        fetch("{import.meta.env.VITE_API_URL}/api/services"),
+        fetch("{import.meta.env.VITE_API_URL}/api/requests")
       ]);
 
       const servicesData = await servicesResponse.json();
@@ -79,7 +79,7 @@ export default function FeedDashboard() {
 
             if (!providerCache[providerId]) {
               const res = await fetch(
-                `http://localhost:8081/api/users/profile/${providerId}`
+                `{import.meta.env.VITE_API_URL}/api/users/profile/${providerId}`
               );
 
               providerCache[providerId] = await res.json();
@@ -146,7 +146,7 @@ export default function FeedDashboard() {
       );
 
       // backend delete
-      await fetch(`http://localhost:8081/api/services/${id}`, {
+      await fetch(`{import.meta.env.VITE_API_URL}/api/services/${id}`, {
         method: "DELETE"
       });
 
