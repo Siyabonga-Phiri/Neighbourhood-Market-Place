@@ -32,7 +32,7 @@ function CreateService() {
                 const token = localStorage.getItem("token");
                 if (!token) return;
 
-                const res = await fetch("http://localhost:8081/api/users/me", {
+                const res = await fetch(`${import.meta.env.VITE_API_URL}/api/users/me`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
@@ -58,7 +58,7 @@ function CreateService() {
 
         const fetchService = async () => {
             try {
-                const res = await fetch(`http://localhost:8081/api/services`);
+                const res = await fetch(`${import.meta.env.VITE_API_URL}/api/services`);
                 const data = await res.json();
 
                 const existing = data.find(s => s.id === parseInt(id));
@@ -99,7 +99,7 @@ function CreateService() {
         formData.append("image", imageFile);
 
         try {
-            const res = await fetch("http://localhost:8081/api/upload/image", {
+            const res = await fetch(`${import.meta.env.VITE_API_URL}/api/upload/image`, {
                 method: "POST",
                 body: formData
             });
@@ -130,8 +130,8 @@ function CreateService() {
             };
 
             const url = isEditMode
-                ? `http://localhost:8081/api/services/${id}`
-                : `http://localhost:8081/api/services/${providerId}`;
+                ? `${import.meta.env.VITE_API_URL}/api/services/${id}`
+                : `${import.meta.env.VITE_API_URL}/api/services/${providerId}`;
 
             const method = isEditMode ? "PUT" : "POST";
 

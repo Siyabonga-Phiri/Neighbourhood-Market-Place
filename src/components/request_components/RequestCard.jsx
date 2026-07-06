@@ -36,7 +36,7 @@ export default function RequestCard({ request, onDelete }) {
         try {
 
             const res = await fetch(
-                `http://localhost:8081/api/bookings/request/${request.id}`
+                `${import.meta.env.VITE_API_URL}/api/bookings/request/${request.id}`
             );
 
             const data = await res.json();
@@ -99,7 +99,7 @@ export default function RequestCard({ request, onDelete }) {
         try {
 
             const res = await fetch(
-                `http://localhost:8081/api/bookings/${requestOwnerId}/${user.id}/${request.id}`,
+                `${import.meta.env.VITE_API_URL}/api/bookings/${requestOwnerId}/${user.id}/${request.id}`,
                 {
                     method: "POST",
                     headers: {
@@ -141,7 +141,7 @@ export default function RequestCard({ request, onDelete }) {
     const acceptProvider = async (id) => {
 
         await fetch(
-            `http://localhost:8081/api/bookings/${id}/accept`,
+            `${import.meta.env.VITE_API_URL}/api/bookings/${id}/accept`,
             {
                 method: "PUT"
             }
@@ -158,7 +158,7 @@ export default function RequestCard({ request, onDelete }) {
     const rejectProvider = async (id) => {
 
         await fetch(
-            `http://localhost:8081/api/bookings/${id}/reject`,
+            `${import.meta.env.VITE_API_URL}/api/bookings/${id}/reject`,
             {
                 method: "PUT"
             }
@@ -175,7 +175,7 @@ export default function RequestCard({ request, onDelete }) {
     const closeRequest = async () => {
 
         await fetch(
-            `http://localhost:8081/api/requests/${request.id}/user/${user.id}`,
+            `${import.meta.env.VITE_API_URL}/api/requests/${request.id}/user/${user.id}`,
             {
                 method: "PUT",
                 headers: {
@@ -205,7 +205,7 @@ export default function RequestCard({ request, onDelete }) {
         if (!confirmDelete) return;
 
         await fetch(
-            `http://localhost:8081/api/requests/${request.id}/user/${user.id}`,
+            `${import.meta.env.VITE_API_URL}/api/requests/${request.id}/user/${user.id}`,
             {
                 method: "DELETE"
             }

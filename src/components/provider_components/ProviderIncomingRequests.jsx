@@ -19,7 +19,7 @@ if(!providerId) return;
 
 
 fetch(
-`http://localhost:8081/api/bookings/provider/${providerId}`
+`${import.meta.env.VITE_API_URL}/api/bookings/provider/${providerId}`
 )
 
 

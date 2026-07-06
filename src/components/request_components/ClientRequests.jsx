@@ -5,7 +5,7 @@ const [bookings, setBookings] = useState([]);
 const [loading, setLoading] = useState(true);
 
 useEffect(() => {
-fetch(`http://localhost:8080/api/bookings/user/${userId}`)
+fetch(`${import.meta.env.VITE_API_URL}/api/bookings/user/${userId}`)
 .then(res => res.json())
 .then(data => {
 setBookings(data);

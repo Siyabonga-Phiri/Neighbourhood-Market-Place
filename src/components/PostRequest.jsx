@@ -34,7 +34,7 @@ function PostRequest() {
             try {
 
                 const res = await fetch(
-                    `http://localhost:8081/api/requests/${id}`
+                    `${import.meta.env.VITE_API_URL}/api/requests/${id}`
                 );
 
                 const data = await res.json();
@@ -76,7 +76,7 @@ function PostRequest() {
         try {
 
             const res = await fetch(
-                "http://localhost:8081/api/upload/image",
+                `${import.meta.env.VITE_API_URL}/api/upload/image`,
                 {
                     method: "POST",
                     body: formData
@@ -119,8 +119,8 @@ function PostRequest() {
             console.log("REQUEST PAYLOAD:", finalRequest);
 
             const url = isEditMode
-                ? `http://localhost:8081/api/requests/${id}/user/${user.id}`
-                : `http://localhost:8081/api/requests/${user.id}`;
+                ? `${import.meta.env.VITE_API_URL}/${id}/user/${user.id}`
+                : `${import.meta.env.VITE_API_URL}/${user.id}`;
 
             const method = isEditMode ? "PUT" : "POST";
 

@@ -6,7 +6,7 @@ export default function ManageServices() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:8081/api/admin/services")
+    fetch(`${import.meta.env.VITE_API_URL}/api/admin/services`)
       .then(res => res.json())
       .then(data => {
         setServices(data);
@@ -19,7 +19,7 @@ export default function ManageServices() {
   }, []);
 
   const deleteService = (id) => {
-    fetch(`http://localhost:8081/api/admin/services/${id}`, {
+    fetch(`${import.meta.env.VITE_API_URL}/api/admin/services/${id}`, {
       method: "DELETE"
     })
       .then(() => {

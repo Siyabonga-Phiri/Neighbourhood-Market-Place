@@ -11,7 +11,7 @@ import marketplace.neighbourhood.backend.services.RequestService;
 
 @RestController
 @RequestMapping("/api/requests")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = {"http://localhost:5173", "https://neighbourhood-market-place-production.up.railway.app"})
 public class RequestController {
 
     @Autowired

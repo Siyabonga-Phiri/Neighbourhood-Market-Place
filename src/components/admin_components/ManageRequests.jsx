@@ -6,7 +6,7 @@ export default function ManageRequests() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:8081/api/admin/requests")
+    fetch(`${import.meta.env.VITE_API_URL}/api/admin/requests`)
       .then(res => res.json())
       .then(data => {
         console.log("REQUESTS API:", data);
@@ -22,7 +22,7 @@ export default function ManageRequests() {
   }, []);
 
   const deleteRequest = (id) => {
-    fetch(`http://localhost:8081/api/admin/requests/${id}`, {
+    fetch(`${import.meta.env.VITE_API_URL}/api/admin/requests/${id}`, {
       method: "DELETE"
     })
       .then(() => {

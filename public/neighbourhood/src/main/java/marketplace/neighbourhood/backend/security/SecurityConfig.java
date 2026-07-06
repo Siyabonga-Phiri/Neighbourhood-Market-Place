@@ -14,27 +14,30 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import org.springframework.http.HttpMethod;
+
 import java.util.List;
 @Configuration
 public class SecurityConfig {
 
-   @Bean
-   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+  
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-       http.csrf(csrf -> csrf.disable())
-           .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-           .sessionManagement(session ->
-               session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-           )
-           .authorizeHttpRequests(auth -> auth
-    .anyRequest().permitAll()
-);
+    http
+        .csrf(csrf -> csrf.disable())
+        .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+        .sessionManagement(session ->
+            session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        .authorizeHttpRequests(auth -> auth
+            .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+            .anyRequest().permitAll()
+        );
 
-       http.addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class);
+    http.addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class);
 
-       return http.build();
-   }
-
+    return http.build();
+}
    @Bean
    public CorsConfigurationSource corsConfigurationSource() {
 

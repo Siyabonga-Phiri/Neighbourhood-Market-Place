@@ -20,7 +20,7 @@ import marketplace.neighbourhood.backend.services.UserService;
 
 @RestController
 @RequestMapping("/api/users")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = {"http://localhost:5173", "https://neighbourhood-market-place-production.up.railway.app"})
 public class UserController {
 
     private final JwtUtil jwtUtil = new JwtUtil();

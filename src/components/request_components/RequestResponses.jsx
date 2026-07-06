@@ -18,7 +18,7 @@ export default function RequestResponses() {
             setLoading(true);
 
             const response = await fetch(
-                `http://localhost:8081/api/bookings/request/${requestId}`
+                `${import.meta.env.VITE_API_URL}/api/bookings/request/${requestId}`
             );
 
             if (!response.ok) {
@@ -56,7 +56,7 @@ export default function RequestResponses() {
             setProcessingId(bookingId);
 
             const response = await fetch(
-                `http://localhost:8081/api/bookings/${bookingId}/accept`,
+                `${import.meta.env.VITE_API_URL}/api/bookings/${bookingId}/accept`,
                 { method: "PUT" }
             );
 
@@ -83,7 +83,7 @@ export default function RequestResponses() {
             setProcessingId(bookingId);
 
             const response = await fetch(
-                `http://localhost:8081/api/bookings/${bookingId}/reject`,
+                `${import.meta.env.VITE_API_URL}//api/bookings/${bookingId}/reject`,
                 { method: "PUT" }
             );
 

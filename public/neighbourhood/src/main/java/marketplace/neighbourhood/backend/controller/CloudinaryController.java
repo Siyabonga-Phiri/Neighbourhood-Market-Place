@@ -15,7 +15,7 @@ import com.cloudinary.utils.ObjectUtils;
 
 @RestController
 @RequestMapping("/api/upload")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = {"http://localhost:5173", "https://neighbourhood-market-place-production.up.railway.app"})
 public class CloudinaryController {
 
 

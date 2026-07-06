@@ -43,7 +43,7 @@ export default function Profile() {
       setLoading(true);
 
       const profileRes = await fetch(
-        `http://localhost:8081/api/users/profile/${userId}`,
+        `${import.meta.env.VITE_API_URL}/api/users/profile/${userId}`,
       );
 
       const profileData = await profileRes.json();
@@ -53,7 +53,7 @@ export default function Profile() {
       setBio(profileData.bio || "");
 
       const requestRes = await fetch(
-        `http://localhost:8081/api/requests/user/${userId}`,
+        `${import.meta.env.VITE_API_URL}/api/requests/user/${userId}`,
       );
 
       const requestData = await requestRes.json();
@@ -61,7 +61,7 @@ export default function Profile() {
       setRequests(Array.isArray(requestData) ? requestData : []);
 
       const serviceRes = await fetch(
-        `http://localhost:8081/api/services/provider/${userId}`,
+        `${import.meta.env.VITE_API_URL}/api/services/provider/${userId}`,
       );
 
       const serviceData = await serviceRes.json();
@@ -69,7 +69,7 @@ export default function Profile() {
       setServices(Array.isArray(serviceData) ? serviceData : []);
 
       const clientBookingRes = await fetch(
-        `http://localhost:8081/api/bookings/user/${userId}`,
+        `${import.meta.env.VITE_API_URL}/api/bookings/user/${userId}`,
       );
 
       const clientData = await clientBookingRes.json();
@@ -77,7 +77,7 @@ export default function Profile() {
       setBookingsAsClient(Array.isArray(clientData) ? clientData : []);
 
       const providerBookingRes = await fetch(
-        `http://localhost:8081/api/bookings/provider/${userId}`,
+        `${import.meta.env.VITE_API_URL}/api/bookings/provider/${userId}`,
       );
 
       const providerData = await providerBookingRes.json();
@@ -100,7 +100,7 @@ export default function Profile() {
 
       formData.append("image", image);
 
-      const uploadRes = await fetch("http://localhost:8081/api/upload/image", {
+      const uploadRes = await fetch(`${import.meta.env.VITE_API_URL}/api/upload/image`, {
         method: "POST",
         body: formData,
       });
@@ -108,7 +108,7 @@ export default function Profile() {
       const uploadData = await uploadRes.json();
 
       await fetch(
-        `http://localhost:8081/api/users/profile-image/${userId}`,
+        `${import.meta.env.VITE_API_URL}/api/users/profile-image/${userId}`,
 
         {
           method: "PUT",
@@ -133,7 +133,7 @@ export default function Profile() {
 
   const saveBio = async () => {
     await fetch(
-      `http://localhost:8081/api/users/profile/${userId}`,
+      `${import.meta.env.VITE_API_URL}/api/users/profile/${userId}`,
 
       {
         method: "PUT",

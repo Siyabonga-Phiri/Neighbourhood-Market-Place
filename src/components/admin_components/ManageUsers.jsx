@@ -6,7 +6,7 @@ export default function ManageUsers() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:8081/api/admin/users")
+    fetch(`${import.meta.env.VITE_API_URL}/api/admin/users`)
       .then(res => res.json())
       .then(data => {
         setUsers(data);
@@ -19,7 +19,7 @@ export default function ManageUsers() {
   }, []);
 
   const deleteUser = (id) => {
-    fetch(`http://localhost:8081/api/admin/users/${id}`, {
+    fetch(`${import.meta.env.VITE_API_URL}/api/admin/users/${id}`, {
       method: "DELETE"
     })
       .then(() => {
