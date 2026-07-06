@@ -79,7 +79,7 @@ export default function FeedDashboard() {
 
             if (!providerCache[providerId]) {
               const res = await fetch(
-                `{import.meta.env.VITE_API_URL}/api/users/profile/${providerId}`
+                `${import.meta.env.VITE_API_URL}/api/users/profile/${providerId}`
               );
 
               providerCache[providerId] = await res.json();
