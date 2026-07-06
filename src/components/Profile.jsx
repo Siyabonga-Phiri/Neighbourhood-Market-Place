@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { AuthContext } from "./context/AuthContext";
+import { AuthContext } from "./context/authContext";
 
 import "./styles/Profile.css";
 

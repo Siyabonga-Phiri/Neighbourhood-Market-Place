@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "./context/AuthContext";
+import { AuthContext } from "./context/authContext";
 import api from "../api/axiosConfig";
 import "./styles/HomePage.css";
 

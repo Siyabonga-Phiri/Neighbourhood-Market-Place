@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
-export default function AdminSidebar() {
+export default function AdminSideBar() {
 
   const location = useLocation();
   const navigate = useNavigate();
