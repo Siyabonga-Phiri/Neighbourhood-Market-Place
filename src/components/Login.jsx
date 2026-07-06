@@ -2,6 +2,8 @@ import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "./context/AuthContext";
 
+import "./styles/PostRequest.css";
+
 function Login() {
   const [loginDetails, setDetails] = useState({
     email: "",
@@ -71,35 +73,39 @@ function Login() {
   }
 }
 
-  return (
-    <div>
-      <form onSubmit={handleLogin}>
-        <div className="loginContainer">
-          <label>Enter email address</label>
-          <input
-            type="text"
-            value={loginDetails.email}
-            onChange={(e) =>
-              setDetails({ ...loginDetails, email: e.target.value })
-            }
-          />
+return (
+  <div className="login-page">
+    <form onSubmit={handleLogin}>
+      <div className="loginContainer">
+        <h2>Welcome Back</h2>
 
-          <label>Enter password</label>
-          <input
-            type="password"
-            value={loginDetails.password}
-            onChange={(e) =>
-              setDetails({ ...loginDetails, password: e.target.value })
-            }
-          />
+        <label>Enter email address</label>
+        <input
+          type="text"
+          value={loginDetails.email}
+          onChange={(e) =>
+            setDetails({ ...loginDetails, email: e.target.value })
+          }
+        />
 
-          <button type="submit">Login</button>
-        </div>
+        <label>Enter password</label>
+        <input
+          type="password"
+          value={loginDetails.password}
+          onChange={(e) =>
+            setDetails({ ...loginDetails, password: e.target.value })
+          }
+        />
 
-        <Link to="/register">Don't have an account? Register</Link>
-      </form>
-    </div>
-  );
+        <button type="submit">Login</button>
+
+        <Link to="/register">
+          Don't have an account? Register
+        </Link>
+      </div>
+    </form>
+  </div>
+);
 }
 
 export default Login;

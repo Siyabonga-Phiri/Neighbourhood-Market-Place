@@ -26,16 +26,15 @@ function Header() {
         <ul>
 
           <li><Link to="/">Home</Link></li>
-          <li><Link to="/browse">Browse</Link></li>
-
+         
           {!user ? (
             <>
               <li><Link to="/login">Login</Link></li>
             </>
           ) : (
             <>
-              <li><Link to="/dashboard">Dashboard</Link></li>
-
+            {/*   <li><Link to="/dashboard">Dashboard</Link></li>
+             <li><Link to="/browse">Browse</Link></li>*/}
               {/* 👤 Profile */}
               <li>
                 <button

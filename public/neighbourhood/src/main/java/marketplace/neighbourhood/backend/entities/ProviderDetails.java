@@ -31,7 +31,7 @@ public class ProviderDetails {
     @JsonIgnore
     @OneToOne
     @JoinColumn(name = "user_id", nullable = false, unique = true)
-    private Persona user;
+    public Persona user;
 
 
     // GETTERS & SETTERS

@@ -993,3 +993,146 @@
     }
 
 }
+
+/* =========================
+   LOGIN PAGE
+========================= */
+
+.login-page{
+    min-height:80vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:40px 20px;
+    background:#f7f9f8;
+}
+
+/* =========================
+   LOGIN CARD
+========================= */
+
+.loginContainer{
+    width:100%;
+    max-width:420px;
+
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+
+    background:#fff;
+    padding:35px;
+
+    border-radius:18px;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+/* =========================
+   HEADING
+========================= */
+
+.loginContainer h2{
+    margin:0 0 10px;
+    text-align:center;
+
+    color:#0F5C55;
+    font-size:28px;
+    font-weight:800;
+}
+
+/* =========================
+   LABELS
+========================= */
+
+.loginContainer label{
+    font-size:14px;
+    font-weight:600;
+    color:#36534B;
+}
+
+/* =========================
+   INPUTS
+========================= */
+
+.loginContainer input{
+    padding:12px 14px;
+
+    border:1px solid #D9E3E1;
+    border-radius:12px;
+
+    font-size:15px;
+
+    outline:none;
+
+    transition:.25s;
+}
+
+.loginContainer input:focus{
+    border-color:#0F5C55;
+    box-shadow:0 0 0 3px rgba(15,92,85,.12);
+}
+
+/* =========================
+   BUTTON
+========================= */
+
+.loginContainer button{
+    margin-top:10px;
+
+    padding:13px;
+
+    border:none;
+    border-radius:12px;
+
+    background:#0F5C55;
+    color:white;
+
+    font-size:15px;
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:.25s;
+}
+
+.loginContainer button:hover{
+    background:#0c4c46;
+    transform:translateY(-2px);
+}
+
+.loginContainer button:active{
+    transform:translateY(0);
+}
+
+/* =========================
+   REGISTER LINK
+========================= */
+
+form>a{
+    display:block;
+    margin-top:20px;
+
+    text-align:center;
+
+    color:#0F5C55;
+    text-decoration:none;
+
+    font-weight:600;
+
+    transition:.2s;
+}
+
+form>a:hover{
+    text-decoration:underline;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width:600px){
+
+    .loginContainer{
+        padding:25px 20px;
+    }
+
+}

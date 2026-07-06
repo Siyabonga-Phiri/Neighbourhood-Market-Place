@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import "./header_styles.css";
 
 function Footer() {
@@ -11,10 +10,25 @@ function Footer() {
       </div>
 
       <div className="socials">
-        <span>Facebook</span>
+        <a
+          href="https://www.facebook.com/share/1BV9DLXNsk/?mibextid=wwXIfr"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Facebook
+        </a>
+
         <span>Instagram</span>
+
         <span>LinkedIn</span>
-        <span>WhatsApp</span>
+
+        <a
+          href="https://whatsapp.com/channel/0029VbD0QWUInlqUxqkXw22q"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          WhatsApp
+        </a>
       </div>
 
     </footer>

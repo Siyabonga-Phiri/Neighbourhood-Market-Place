@@ -49,11 +49,13 @@ export default function HomePage() {
       {user && (
         <section className="welcome-banner">
           <h3>
-            Welcome back, {user.firstName}
+            Welcome back, {user.firstName} {user.lastName}
           </h3>
 
           <p>
-            Logged in as {user.role}
+            <p>
+  Great to see you again!
+</p>
           </p>
         </section>
       )}
@@ -139,8 +141,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* PROVIDER TOOLS */}
-      {user?.role === "ROLE_PROVIDER" && (
+      {/* PROVIDER TOOLS 
+         {user?.role === "ROLE_PROVIDER" && (
         <section className="provider-actions">
 
           <span className="section-label">
@@ -162,14 +164,14 @@ export default function HomePage() {
 
             <button
               className="service-btn"
-              onClick={() => navigate("/provider/services")}
+              onClick={() => navigate("/profile")}
             >
               My Services
             </button>
 
             <button
               className="service-btn"
-              onClick={() => navigate("/provider/bookings")}
+              onClick={() => navigate("/profile/")}
             >
               My Bookings
             </button>
@@ -178,6 +180,9 @@ export default function HomePage() {
 
         </section>
       )}
+      
+      */}
+     
 
       {/* FEATURED PROVIDERS */}
       <section className="providers-section">

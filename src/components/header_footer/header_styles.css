@@ -182,23 +182,41 @@ nav button:not(.profile-btn):not(.admin-btn):hover{
     flex-wrap:wrap;
 }
 
+.socials a,
 .socials span{
-    font-size:13px;
-    padding:5px 10px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
 
-    border-radius:12px;
+    text-decoration:none;
+    color:white;
+
+    font-size:13px;
+    font-weight:600;
+
+    padding:7px 14px;
+
+    border-radius:999px;
 
     background:rgba(255,255,255,.12);
-    cursor:pointer;
+    border:1px solid rgba(255,255,255,.18);
 
-    transition:.2s;
+    transition:all .25s ease;
     white-space:nowrap;
 }
 
+.socials a:hover,
 .socials span:hover{
-    background:rgba(255,255,255,.22);
+    background:white;
+    color:#0F5C55;
+    transform:translateY(-2px);
+    box-shadow:0 4px 12px rgba(0,0,0,.15);
 }
 
+.socials a:active,
+.socials span:active{
+    transform:translateY(0);
+}
 /* =========================
    RESPONSIVE
 ========================= */
