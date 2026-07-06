@@ -1136,3 +1136,86 @@ form>a:hover{
     }
 
 }
+/* Register.css */
+
+.registerContainer {
+    width: 100%;
+    max-width: 520px;
+    margin: 50px auto;
+    padding: 35px;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.registerContainer h2 {
+    text-align: center;
+    margin-bottom: 15px;
+    color: #1f2937;
+    font-size: 2rem;
+}
+
+.registerContainer label {
+    font-weight: 600;
+    color: #374151;
+    margin-top: 5px;
+}
+
+.registerContainer input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 15px;
+    transition: all 0.25s ease;
+    box-sizing: border-box;
+}
+
+.registerContainer input:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.registerContainer button {
+    margin-top: 20px;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    background: #2563eb;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+
+.registerContainer button:hover {
+    background: #1d4ed8;
+    transform: translateY(-2px);
+}
+
+.registerContainer button:active {
+    transform: translateY(0);
+}
+
+body {
+    background: #f4f6f9;
+}
+
+@media (max-width: 600px) {
+
+    .registerContainer {
+        margin: 20px;
+        padding: 25px;
+    }
+
+    .registerContainer h2 {
+        font-size: 1.7rem;
+    }
+
+}

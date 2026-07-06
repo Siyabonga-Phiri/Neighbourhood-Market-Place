@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import "./styles/PostRequest.css";
+
 export default function Register() {
 
   const [registerPersona, setPersona] = useState({
@@ -34,7 +36,7 @@ export default function Register() {
 
     try {
       const response = await fetch(
-        "http://localhost:8081/api/users",
+        "{import.meta.env.VITE_API_URL}/api/users",
         {
           method: "POST",
           headers: {

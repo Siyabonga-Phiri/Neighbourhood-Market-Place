@@ -20,7 +20,7 @@ function Login() {
 
     // STEP 1: Login
     const response = await fetch(
-      "http://localhost:8081/api/users/login",
+      "{import.meta.env.VITE_API_URL}/api/users/login",
       {
         method: "POST",
         headers: {
@@ -42,7 +42,7 @@ function Login() {
 
     // STEP 3: Get current user
     const meResponse = await fetch(
-      "http://localhost:8081/api/users/me",
+      "{import.meta.env.VITE_API_URL}/api/users/me",
       {
         headers: {
           Authorization: `Bearer ${data.token}`
