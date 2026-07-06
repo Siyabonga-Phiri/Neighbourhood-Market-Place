@@ -6,7 +6,7 @@ export default function ManageBookings() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}api/admin/bookings`)
+    fetch(`${import.meta.env.VITE_API_URL}/api/admin/bookings`)
       .then(res => res.json())
       .then(data => {
         setBookings(data);
