@@ -43,8 +43,7 @@ public class UserController {
     @PostMapping
     public Persona createUser(@RequestBody Persona user) {
 
-        System.out.println("REGISTERING USER");
-        System.out.println("EMAIL: " + user.getEmail());
+        
 
         user.setRole(Role.ROLE_USER);
 

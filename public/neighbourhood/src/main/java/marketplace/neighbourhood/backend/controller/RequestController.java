@@ -26,8 +26,7 @@ public class RequestController {
             @RequestBody Request request
     ) {
      
-        System.out.println("IMAGE URL RECEIVED: " + request.getImageURL());
-        System.out.println("REQUEST RECEIVED: " + request.getTitle());
+        
         return service.createRequest(userId, request);
     }
 
@@ -64,7 +63,7 @@ public class RequestController {
             @PathVariable Long userId,
             @RequestBody Request request
     ) {
-        System.out.println("UPDATED IMAGE URL: " + request.getImageURL());
+        
         return service.updateRequest(requestId, userId, request);
     }
 

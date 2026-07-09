@@ -131,7 +131,7 @@ public BookingDTO acceptBooking(Long bookingId) {
         }
     }
 
-    System.out.println("🔥 ACCEPTED PROVIDER PHONE SAVED: " + phone);
+    
 
     return toDTO(saved);
 }

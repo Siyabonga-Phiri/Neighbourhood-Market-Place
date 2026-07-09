@@ -44,11 +44,7 @@ public class ServiceListingService {
         // SOURCE OF TRUTH = Persona.id
         service.setProviderUserId(provider.getUser().getId());
 
-        System.out.println("PROVIDER USER ID: " + provider.getUser().getId());
-        System.out.println("SAVED SERVICE PROVIDER ID: " + service.getProviderUserId());
-        System.out.println("IMAGE URL SAVED: " + service.getImageURL());
-
-         System.out.println("IMAGE = " + dto.getImageURL());
+        
 
         return serviceRepository.save(service);
     }

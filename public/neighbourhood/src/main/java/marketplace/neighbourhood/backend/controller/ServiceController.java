@@ -27,7 +27,7 @@ public class ServiceController {
     ) {
 
         // DEBUG
-        System.out.println("IMAGE URL RECEIVED: " + serviceDTO.getImageURL());
+      
 
         return service.createService(providerId, serviceDTO);
     }

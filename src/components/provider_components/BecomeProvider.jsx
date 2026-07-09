@@ -128,7 +128,7 @@ function BecomeProvider() {
                 </div>
 
                 <div>
-                    <label>Hourly Rate (R)</label>
+                    <label>Rate (R)</label>
 
                     <input
                         type="number"
