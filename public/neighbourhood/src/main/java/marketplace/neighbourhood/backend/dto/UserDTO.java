@@ -7,6 +7,7 @@ public class UserDTO {
 
     public Long id;
     public String email;
+    public String phoneNumber;
     public String role;
     public String firstName;
     public String lastName;
@@ -34,12 +35,14 @@ public class UserDTO {
 
         this.id = user.getId();
         this.email = user.getEmail();
+        this.phoneNumber = user.getPhoneNumber();
         this.role = user.getRole().name();
+        this.firstName = user.getFirstName();
+        this.lastName = user.getLastName();
+
         this.providerDetails = provider;
         this.profileImage = user.getProfileImage();
         this.bio = user.getBio();
-        this.firstName = user.getFirstName();
-        this.lastName= user.getLastName();
 
         this.acceptedBookings = acceptedBookings;
         this.totalBookings = totalBookings;

@@ -27,9 +27,9 @@ public class UserService {
     // =====================================================
     // CURRENT USER
     // =====================================================
-    public UserDTO getCurrentUser(String email) {
+    public UserDTO getCurrentUser(Long userId) {
 
-        Persona user = userRepository.findByEmail(email)
+        Persona user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         return buildUserDTO(user);

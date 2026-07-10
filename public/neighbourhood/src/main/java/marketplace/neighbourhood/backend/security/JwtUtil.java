@@ -17,29 +17,53 @@ public class JwtUtil {
 
     private final Key key = Keys.hmacShaKeyFor(SECRET.getBytes());
 
-    // Generate token
+    // =====================================================
+    // GENERATE TOKEN
+    // =====================================================
     public String generateToken(Persona user) {
 
         return Jwts.builder()
-                .setSubject(user.getEmail())
+                .setSubject(String.valueOf(user.getId()))   // Use user ID instead of email
                 .claim("role", user.getRole().toString())
+                .claim("phoneNumber", user.getPhoneNumber())
+                .claim("email", user.getEmail())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION))
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
 
-    // Extract email
-    public String extractEmail(String token) {
-        return parseClaims(token).getSubject();
+    // =====================================================
+    // EXTRACT USER ID
+    // =====================================================
+    public Long extractUserId(String token) {
+        return Long.parseLong(parseClaims(token).getSubject());
     }
 
-    // Extract role (✅ NEW)
+    // =====================================================
+    // EXTRACT ROLE
+    // =====================================================
     public String extractRole(String token) {
         return parseClaims(token).get("role", String.class);
     }
 
-    // Validate token
+    // =====================================================
+    // EXTRACT PHONE NUMBER
+    // =====================================================
+    public String extractPhoneNumber(String token) {
+        return parseClaims(token).get("phoneNumber", String.class);
+    }
+
+    // =====================================================
+    // EXTRACT EMAIL
+    // =====================================================
+    public String extractEmail(String token) {
+        return parseClaims(token).get("email", String.class);
+    }
+
+    // =====================================================
+    // VALIDATE TOKEN
+    // =====================================================
     public boolean validateToken(String token) {
         try {
             parseClaims(token);
@@ -49,6 +73,9 @@ public class JwtUtil {
         }
     }
 
+    // =====================================================
+    // PARSE CLAIMS
+    // =====================================================
     private Claims parseClaims(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(key)

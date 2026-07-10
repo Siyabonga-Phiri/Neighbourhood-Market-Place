@@ -38,6 +38,8 @@ public class Persona {
     private Role role;
 
     private String location;
+
+@Column(unique = true)
     private String phoneNumber;
 
     @Column(name = "profile_picture")

@@ -2,6 +2,7 @@ package marketplace.neighbourhood.backend.controller;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,7 +21,10 @@ import marketplace.neighbourhood.backend.services.UserService;
 
 @RestController
 @RequestMapping("/api/users")
-@CrossOrigin(origins = {"http://localhost:5173", "https://neighbourhood-market-place-production.up.railway.app"})
+@CrossOrigin(origins = {
+        "http://localhost:5173",
+        "https://neighbourhood-market-place-production.up.railway.app"
+})
 public class UserController {
 
     private final JwtUtil jwtUtil = new JwtUtil();
@@ -43,7 +47,23 @@ public class UserController {
     @PostMapping
     public Persona createUser(@RequestBody Persona user) {
 
-        
+        // Phone number is required
+        if (user.getPhoneNumber() == null || user.getPhoneNumber().isBlank()) {
+            throw new RuntimeException("Phone number is required.");
+        }
+
+        // Prevent duplicate phone numbers
+        if (userRepository.existsByPhoneNumber(user.getPhoneNumber())) {
+            throw new RuntimeException("Phone number is already registered.");
+        }
+
+        // Prevent duplicate emails (only if one was supplied)
+        if (user.getEmail() != null &&
+                !user.getEmail().isBlank() &&
+                userRepository.existsByEmail(user.getEmail())) {
+
+            throw new RuntimeException("Email address is already registered.");
+        }
 
         user.setRole(Role.ROLE_USER);
 
@@ -59,13 +79,21 @@ public class UserController {
     }
 
     // =====================================================
-    // LOGIN
+    // LOGIN (EMAIL OR PHONE NUMBER)
     // =====================================================
     @PostMapping("/login")
     public AuthResponse login(@RequestBody LoginRequest request) {
 
-        Persona user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        Optional<Persona> optionalUser =
+                userRepository.findByEmail(request.getIdentifier());
+
+        if (optionalUser.isEmpty()) {
+            optionalUser =
+                    userRepository.findByPhoneNumber(request.getIdentifier());
+        }
+
+        Persona user = optionalUser.orElseThrow(
+                () -> new RuntimeException("User not found"));
 
         if (!user.getPassword().equals(request.getPassword())) {
             throw new RuntimeException("Wrong password");
@@ -76,28 +104,28 @@ public class UserController {
         return new AuthResponse(token);
     }
 
-    // =====================================================
-    // CURRENT USER (JWT SAFE FIXED)
-    // =====================================================
-    @GetMapping("/me")
-    public UserDTO getCurrentUser() {
 
-        Object principal = SecurityContextHolder
-                .getContext()
-                .getAuthentication()
-                .getPrincipal();
+// =====================================================
+// CURRENT USER
+// =====================================================
+@GetMapping("/me")
+public UserDTO getCurrentUser() {
 
-        String email;
+    Object principal = SecurityContextHolder
+            .getContext()
+            .getAuthentication()
+            .getPrincipal();
 
-        if (principal instanceof UserDetails userDetails) {
-            email = userDetails.getUsername();
-        } else {
-            email = principal.toString();
-        }
+    Long userId;
 
-        return userService.getCurrentUser(email);
+    if (principal instanceof Long) {
+        userId = (Long) principal;
+    } else {
+        userId = Long.valueOf(principal.toString());
     }
 
+    return userService.getCurrentUser(userId);
+}
     // =====================================================
     // PUBLIC PROFILE
     // =====================================================
@@ -105,48 +133,36 @@ public class UserController {
     public UserDTO getProfile(@PathVariable Long userId) {
         return userService.getUserProfile(userId);
     }
+
     // =====================================================
-// UPDATE PROFILE IMAGE
-// =====================================================
+    // UPDATE PROFILE IMAGE
+    // =====================================================
+    @PutMapping("/profile-image/{id}")
+    public Persona updateProfileImage(
+            @PathVariable Long id,
+            @RequestBody Map<String, String> body) {
 
-@PutMapping("/profile-image/{id}")
-public Persona updateProfileImage(
-        @PathVariable Long id,
-        @RequestBody Map<String,String> body
-){
+        Persona user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
-    Persona user = userRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("User not found"));
+        user.setProfileImage(body.get("profileImage"));
 
+        return userRepository.save(user);
+    }
 
-    user.setProfileImage(
-            body.get("profileImage")
-    );
+    // =====================================================
+    // UPDATE PROFILE BIO
+    // =====================================================
+    @PutMapping("/profile/{id}")
+    public Persona updateProfile(
+            @PathVariable Long id,
+            @RequestBody Map<String, String> body) {
 
+        Persona user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
-    return userRepository.save(user);
+        user.setBio(body.get("bio"));
 
-}
-// =====================================================
-// UPDATE PROFILE BIO
-// =====================================================
-
-@PutMapping("/profile/{id}")
-public Persona updateProfile(
-        @PathVariable Long id,
-        @RequestBody Map<String,String> body
-){
-
-    Persona user = userRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("User not found"));
-
-
-    user.setBio(
-            body.get("bio")
-    );
-
-
-    return userRepository.save(user);
-
-}
+        return userRepository.save(user);
+    }
 }

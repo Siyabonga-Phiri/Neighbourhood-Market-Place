@@ -76,6 +76,7 @@ export default function Register() {
           <input
             type="text"
             placeholder="Enter first name"
+            required
             value={registerPersona.firstName}
             onChange={(e) =>
               setPersona({
@@ -89,6 +90,7 @@ export default function Register() {
           <input
             type="text"
             placeholder="Enter last name"
+            required
             value={registerPersona.lastName}
             onChange={(e) =>
               setPersona({
@@ -102,6 +104,7 @@ export default function Register() {
           <input
             type="email"
             placeholder="Enter email"
+            
             value={registerPersona.email}
             onChange={(e) =>
               setPersona({
@@ -115,6 +118,7 @@ export default function Register() {
           <input
             type="text"
             placeholder="Enter location"
+            required
             value={registerPersona.location}
             onChange={(e) =>
               setPersona({
@@ -129,6 +133,7 @@ export default function Register() {
           <input
             type="text"
             placeholder="Enter phone number"
+            required
             value={registerPersona.phoneNumber}
             onChange={(e) =>
               setPersona({
@@ -142,6 +147,7 @@ export default function Register() {
           <input
             type="password"
             placeholder="Enter password"
+            required
             value={registerPersona.password}
             onChange={(e) =>
               setPersona({
@@ -155,6 +161,7 @@ export default function Register() {
           <input
             type="password"
             placeholder="Confirm password"
+            required
             value={registerPersona.confirmPassword}
             onChange={(e) =>
               setPersona({

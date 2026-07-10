@@ -7,7 +7,12 @@ export function AuthProvider({ children }) {
 
   const login = (userData) => {
     setUser(userData);
+
     localStorage.setItem("user", JSON.stringify(userData));
+
+    if (userData.token) {
+      localStorage.setItem("token", userData.token);
+    }
   };
 
   const getCurrentUser = async () => {
@@ -53,8 +58,6 @@ export function AuthProvider({ children }) {
       setUser(JSON.parse(savedUser));
     }
 
-    // If JWT exists but user state is empty,
-    // fetch the latest user from backend
     if (localStorage.getItem("token")) {
       getCurrentUser();
     }

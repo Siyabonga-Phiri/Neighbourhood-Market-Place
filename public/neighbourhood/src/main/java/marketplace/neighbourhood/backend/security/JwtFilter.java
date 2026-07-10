@@ -27,8 +27,6 @@ public class JwtFilter extends OncePerRequestFilter {
             HttpServletResponse response,
             FilterChain filterChain
     ) throws ServletException, IOException {
-            
-       
 
         String header = request.getHeader("Authorization");
 
@@ -36,28 +34,27 @@ public class JwtFilter extends OncePerRequestFilter {
 
             String token = header.substring(7);
 
-            // ❌ invalid token → block request
+            // Invalid token -> reject request
             if (!jwtUtil.validateToken(token)) {
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 return;
             }
 
-            // ✅ extract data from token
-            String email = jwtUtil.extractEmail(token);
+            // Extract user information from token
+            Long userId = jwtUtil.extractUserId(token);
             String role = jwtUtil.extractRole(token);
 
-            // Spring Security expects ROLE_ prefix
             SimpleGrantedAuthority authority =
                     new SimpleGrantedAuthority(role);
 
-            UsernamePasswordAuthenticationToken auth =
+            UsernamePasswordAuthenticationToken authentication =
                     new UsernamePasswordAuthenticationToken(
-                            email,
+                            userId,      // Principal is now the user ID
                             null,
                             List.of(authority)
                     );
 
-            SecurityContextHolder.getContext().setAuthentication(auth);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
         }
 
         filterChain.doFilter(request, response);
