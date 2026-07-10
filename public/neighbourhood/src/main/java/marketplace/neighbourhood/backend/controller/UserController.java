@@ -60,7 +60,7 @@ public class UserController {
         // Prevent duplicate emails (only if one was supplied)
         if (user.getEmail() != null &&
                 !user.getEmail().isBlank() &&
-                userRepository.existsByEmail(user.getEmail())) {
+                userRepository.existsByEmailIgnoreCase(user.getEmail())) {
 
             throw new RuntimeException("Email address is already registered.");
         }
@@ -85,7 +85,7 @@ public class UserController {
     public AuthResponse login(@RequestBody LoginRequest request) {
 
         Optional<Persona> optionalUser =
-                userRepository.findByEmail(request.getIdentifier());
+                userRepository.findByEmailIgnoreCase(request.getIdentifier());
 
         if (optionalUser.isEmpty()) {
             optionalUser =

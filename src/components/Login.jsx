@@ -61,7 +61,7 @@ function Login() {
 
       // STEP 5: Redirect based on role
       if (currentUser.role === "ROLE_PROVIDER") {
-        navigate("/provider/dashboard");
+        navigate("/");
       } else {
         navigate("/");
       }
