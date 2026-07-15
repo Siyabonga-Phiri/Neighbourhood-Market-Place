@@ -214,7 +214,7 @@ const navigate = useNavigate();
       {/* SEARCH HEADER */}
       <section className="search-section">
 
-        <h1>Neighbourhood Marketplace</h1>
+       {/* <h1>Neighbourhood Marketplace</h1>*/}
 
         <div className="quick-actions">
 
