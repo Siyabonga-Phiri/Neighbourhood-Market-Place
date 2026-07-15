@@ -1,9 +1,12 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import ProviderCard from "./provider_components/ProviderCard";
 import RequestCard from "./request_components/RequestCard";
 import "./styles/FeedDashboard.css";
 
 export default function FeedDashboard() {
+
+const navigate = useNavigate();
 
   const [feedItems, setFeedItems] = useState([]);
   const [filteredFeed, setFilteredFeed] = useState([]);
@@ -213,6 +216,37 @@ export default function FeedDashboard() {
 
         <h1>Neighbourhood Marketplace</h1>
 
+        <div className="quick-actions">
+
+  <div
+    className="action-card"
+    onClick={() => navigate("/become-provider")}
+  >
+    <div className="action-icon">🛠️</div>
+    <h3>Offer a Service</h3>
+    <p>Become a provider and start earning.</p>
+  </div>
+
+  <div
+    className="action-card"
+    onClick={() => navigate("/requests/create")}
+  >
+    <div className="action-icon">📢</div>
+    <h3>Post a Request</h3>
+    <p>Looking for help? Let providers find you.</p>
+  </div>
+
+  <div
+    className="action-card"
+    onClick={() => setFeedType("service")}
+  >
+    <div className="action-icon">🔍</div>
+    <h3>Browse Services</h3>
+    <p>Explore services offered near you.</p>
+  </div>
+
+</div>
+
         <div className="search-bar">
 
           <input
@@ -242,7 +276,12 @@ export default function FeedDashboard() {
             ))}
 
           </select>
-
+            <button
+    className="search-btn"
+    onClick={filterFeed}
+>
+    Search
+</button>
         </div>
       </section>
 
