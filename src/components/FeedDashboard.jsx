@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ProviderCard from "./provider_components/ProviderCard";
 import RequestCard from "./request_components/RequestCard";
+import { AuthContext } from "./context/authContext"; 
 import "./styles/FeedDashboard.css";
 
 export default function FeedDashboard() {
@@ -10,6 +11,8 @@ const navigate = useNavigate();
 
   const [feedItems, setFeedItems] = useState([]);
   const [filteredFeed, setFilteredFeed] = useState([]);
+
+  const { user } = useContext(AuthContext);
 
   const [feedType, setFeedType] = useState("all");
   const [categoryFilter, setCategoryFilter] = useState("");
@@ -218,18 +221,30 @@ const navigate = useNavigate();
 
         <div className="quick-actions">
 
-  <div
-    className="action-card"
-    onClick={() => navigate("/become-provider")}
-  >
-    <div className="action-icon">🛠️</div>
-    <h3>Offer a Service</h3>
-    <p>Become a provider and start earning.</p>
-  </div>
+  {/* Offer a Service */}
+<div
+  className="action-card"
+  onClick={() => {
+    if (user?.role === "ROLE_PROVIDER") {
+      navigate("/services/create"); // Post Service form
+    } else {
+      navigate("/become-provider"); // Become Provider form
+    }
+  }}
+>
+  <div className="action-icon">🛠️</div>
+  <h3>Offer a Service</h3>
+  <p>
+    {user?.role === "ROLE_PROVIDER"
+      ? "Create a new service listing."
+      : "Become a provider and start earning."}
+  </p>
+</div>
 
+  {/* Create Request */}
   <div
     className="action-card"
-    onClick={() => navigate("/requests/create")}
+    onClick={() => navigate("/request")}
   >
     <div className="action-icon">📢</div>
     <h3>Post a Request</h3>

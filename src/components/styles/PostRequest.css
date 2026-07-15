@@ -1,1221 +1,168 @@
-/* =========================
-   POST REQUEST PAGE
-========================= */
+/*
+Unified Forms Theme for NeighbourGig
+Inspired by the supplied mockup.
+Replace your existing form stylesheet with this and adjust class names if needed.
 
+Core design:
+- Page background: #F8F4E8
+- Form card: #A9BE72
+- Inputs: #F8F6EF
+- Primary button: #21463F
+- Radius: 24px
+*/
 
-.request-page {
-
-
-    min-height:100vh;
-
-
-    background:#F8F4E8;
-
-
-    padding:40px 20px;
-
-
-    color:#123A36;
-
-
+:root{
+ --page:#F8F4E8;
+ --card:#A9BE72;
+ --input:#F8F6EF;
+ --text:#173A36;
+ --btn:#21463F;
+ --btn-hover:#17332f;
+ --radius:24px;
 }
 
-
-
-
-
-/* TITLE */
-
-
-.request-page h1 {
-
-
-    text-align:center;
-
-
-    color:#0F5C55;
-
-
-    font-size:42px;
-
-
-    margin-bottom:35px;
-
-
+body{
+ background:var(--page);
+ color:var(--text);
 }
 
-
-
-
-
-/* FORM CARD */
-
-
-.request-card {
-
-
-    max-width:950px;
-
-
-    margin:auto;
-
-
-    background:white;
-
-
-    border-radius:25px;
-
-
-    padding:40px;
-
-
-    box-shadow:
-
-
-    0 12px 30px rgba(0,0,0,.12);
-
-
-    display:grid;
-
-
-    grid-template-columns:
-
-    repeat(2,1fr);
-
-
-    gap:35px;
-
-
+/* Shared page containers */
+.request-page,
+.create-service-container,
+.become-provider-page,
+.login-page{
+ min-height:100vh;
+ background:var(--page);
+ padding:40px 20px;
 }
 
-
-
-
-
-
-
-/* FORM COLUMNS */
-
-
-.column {
-
-
-    display:flex;
-
-
-    flex-direction:column;
-
-
-    gap:10px;
-
-
+.request-page h1,
+.create-service-container h1,
+.become-provider-page h1,
+.loginContainer h2,
+.registerContainer h2{
+ text-align:center;
+ color:var(--text);
+ margin-bottom:30px;
 }
 
-
-
-
-
-
-
-/* LABELS */
-
-
-.column label {
-
-
-    font-weight:700;
-
-
-    color:#0F5C55;
-
-
-    margin-top:10px;
-
-
+/* Shared card */
+.request-card,
+.create-service-container form,
+.become-provider-page form,
+.loginContainer,
+.registerContainer{
+ background:var(--card);
+ border-radius:26px;
+ padding:28px;
+ box-shadow:0 10px 28px rgba(0,0,0,.15);
 }
 
-
-
-
-
-
-/* INPUTS */
-
-
-.column input,
-
-.column textarea {
-
-
-    width:100%;
-
-
-    padding:14px;
-
-
-    border-radius:15px;
-
-
-    border:1px solid #D8D2BC;
-
-
-    background:#F8F4E8;
-
-
-    font-size:15px;
-
-
-    color:#123A36;
-
-
-    outline:none;
-
-
-    transition:.2s;
-
-
+/* Request layout */
+.request-card{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:18px;
+ max-width:900px;
+ margin:auto;
 }
 
-
-
-
-
-.column input:focus,
-
-.column textarea:focus {
-
-
-    border-color:#B7F34A;
-
-
-    background:white;
-
-
+/* Service form */
+.create-service-container form,
+.become-provider-page form,
+.loginContainer,
+.registerContainer{
+ max-width:700px;
+ margin:auto;
+ display:flex;
+ flex-direction:column;
+ gap:16px;
 }
 
-
-
-
-
-
-/* TEXTAREA */
-
-
-.column textarea {
-
-
-    min-height:250px;
-
-
-    resize:vertical;
-
-
+.column,
+.become-provider-page form div{
+ display:flex;
+ flex-direction:column;
+ gap:6px;
 }
 
-
-
-
-
-/* FILE INPUT */
-
-
-.column input[type="file"] {
-
-
-    background:white;
-
-
-    padding:10px;
-
-
+label{
+ color:#173A36;
+ font-weight:700;
+ font-size:13px;
 }
 
-
-
-
-
-
-/* IMAGE PREVIEW */
-
-
-.column img {
-
-
-    width:100%;
-
-
-    max-width:250px;
-
-
-    border-radius:20px !important;
-
-
-    object-fit:cover;
-
-
-    box-shadow:
-
-
-    0 8px 20px rgba(0,0,0,.1);
-
-
+input,
+textarea,
+select{
+ width:100%;
+ padding:12px 14px;
+ background:var(--input);
+ border:1px solid #d7d4c7;
+ border-radius:8px;
+ font-size:14px;
+ outline:none;
 }
 
-
-
-
-
-
-
-/* SUBMIT BUTTON */
-
-
-.request-card button {
-
-
-    grid-column:
-
-    1 / -1;
-
-
-    background:#B7F34A;
-
-
-    color:#083B37;
-
-
-    border:none;
-
-
-    border-radius:30px;
-
-
-    padding:16px;
-
-
-    font-size:17px;
-
-
-    font-weight:800;
-
-
-    cursor:pointer;
-
-
-    transition:.3s;
-
-
+textarea{
+ min-height:110px;
+ resize:vertical;
 }
 
-
-
-.request-card button:hover {
-
-
-    background:#8EB83B;
-
-
-    transform:translateY(-3px);
-
-
+input[type=file]{
+ background:white;
+ border:2px dashed #d5d0bf;
 }
 
+input:focus,
+textarea:focus,
+select:focus{
+ border-color:#21463F;
+ box-shadow:0 0 0 3px rgba(33,70,63,.15);
+}
 
+img{
+ max-width:180px;
+ border-radius:14px;
+}
 
+button{
+ background:var(--btn);
+ color:#D6F05F;
+ border:none;
+ border-radius:10px;
+ padding:14px 24px;
+ font-weight:700;
+ cursor:pointer;
+ transition:.25s;
+}
 
+button:hover{
+ background:var(--btn-hover);
+ transform:translateY(-2px);
+}
 
-
-
-
-/* =========================
-   MOBILE
-========================= */
-
+.request-card button{
+ grid-column:1/-1;
+ width:220px;
+ justify-self:center;
+}
 
 @media(max-width:768px){
-
-
-
-.request-page {
-
-
-    padding:25px 15px;
-
-
-}
-
-
-
-.request-page h1 {
-
-
-    font-size:30px;
-
-
-}
-
-
-
-.request-card {
-
-
-    display:flex;
-
-
-    flex-direction:column;
-
-
-    padding:25px;
-
-
-    gap:20px;
-
-
-}
-
-
-
-.column textarea {
-
-
-    min-height:180px;
-
-
-}
-
-
-
-.request-card button {
-
-
-    width:100%;
-
-
-}
-
-
-
-}
-
-/* =========================
-   CREATE SERVICE PAGE
-========================= */
-
-
-.create-service-container {
-
-
-    min-height:100vh;
-
-
-    background:#F8F4E8;
-
-
-    padding:40px 20px;
-
-
-    color:#123A36;
-
-
-}
-
-
-
-
-
-
-/* TITLE */
-
-
-.create-service-container h1 {
-
-
-    text-align:center;
-
-
-    color:#0F5C55;
-
-
-    font-size:42px;
-
-
-    margin-bottom:35px;
-
-
-}
-
-
-
-
-
-
-/* FORM */
-
-
-.create-service-container form {
-
-
-    max-width:700px;
-
-
-    margin:auto;
-
-
-    background:white;
-
-
-    padding:40px;
-
-
-    border-radius:25px;
-
-
-    box-shadow:
-
-
-    0 12px 30px rgba(0,0,0,.12);
-
-
-    display:flex;
-
-
-    flex-direction:column;
-
-
-    gap:18px;
-
-
-}
-
-
-
-
-
-
-
-/* INPUTS */
-
-
-.create-service-container input,
-
-.create-service-container textarea {
-
-
-    width:100%;
-
-
-    padding:15px;
-
-
-    border-radius:15px;
-
-
-    border:1px solid #D8D2BC;
-
-
-    background:#F8F4E8;
-
-
-    font-size:15px;
-
-
-    color:#123A36;
-
-
-    outline:none;
-
-
-    transition:.2s;
-
-
-}
-
-
-
-
-
-.create-service-container input:focus,
-
-.create-service-container textarea:focus {
-
-
-    background:white;
-
-
-    border-color:#B7F34A;
-
-
-}
-
-
-
-
-
-
-
-/* DESCRIPTION */
-
-
-.create-service-container textarea {
-
-
-    min-height:180px;
-
-
-    resize:vertical;
-
-
-}
-
-
-
-
-
-
-
-
-/* IMAGE UPLOAD */
-
-
-.create-service-container input[type="file"] {
-
-
-    background:white;
-
-
-    padding:12px;
-
-
-}
-
-
-
-
-
-
-/* IMAGE PREVIEW */
-
-
-.create-service-container img {
-
-
-    width:120px !important;
-
-
-    height:120px;
-
-
-    object-fit:cover;
-
-
-    border-radius:20px;
-
-
-    margin-top:10px;
-
-
-    box-shadow:
-
-
-    0 8px 20px rgba(0,0,0,.12);
-
-
-}
-
-
-
-
-
-
-
-/* BUTTON */
-
-
-.create-service-container button {
-
-
-    margin-top:15px;
-
-
-    background:#B7F34A;
-
-
-    color:#083B37;
-
-
-    border:none;
-
-
-    padding:16px;
-
-
-    border-radius:30px;
-
-
-    font-size:17px;
-
-
-    font-weight:800;
-
-
-    cursor:pointer;
-
-
-    transition:.3s;
-
-
-}
-
-
-
-
-
-.create-service-container button:hover {
-
-
-    background:#8EB83B;
-
-
-    transform:translateY(-3px);
-
-
-}
-
-
-
-
-
-
-
-
-/* MOBILE */
-
-
-@media(max-width:700px){
-
-
-.create-service-container {
-
-
-    padding:25px 15px;
-
-
-}
-
-
-
-.create-service-container h1 {
-
-
-    font-size:30px;
-
-
-}
-
-
-
-.create-service-container form {
-
-
-    padding:25px;
-
-
-    border-radius:20px;
-
-
-}
-
-
-
-.create-service-container button {
-
-
-    width:100%;
-
-
-}
-
-
-
-}
-
-/* =========================
-   PAGE
-========================= */
-
-.become-provider-page{
-    max-width:700px;
-    margin:40px auto;
-    padding:0 20px;
-}
-
-.become-provider-page h1{
-    color:#0F5C55;
-    font-size:34px;
-    font-weight:800;
-    margin-bottom:8px;
-}
-
-.become-provider-page > p{
-    color:#5B6E69;
-    font-size:16px;
-    margin-bottom:30px;
-}
-
-/* =========================
-   FORM CARD
-========================= */
-
-.become-provider-page form{
-    background:#fff;
-    border-radius:22px;
-    padding:30px;
-    box-shadow:0 8px 22px rgba(0,0,0,.08);
-
-    display:flex;
-    flex-direction:column;
-    gap:20px;
-}
-
-/* =========================
-   FORM GROUP
-========================= */
-
-.become-provider-page form div{
-    display:flex;
-    flex-direction:column;
-}
-
-/* =========================
-   LABELS
-========================= */
-
-.become-provider-page label{
-    color:#0F5C55;
-    font-weight:700;
-    font-size:15px;
-    margin-bottom:8px;
-}
-
-/* =========================
-   INPUTS
-========================= */
-
-.become-provider-page input,
-.become-provider-page textarea,
-.become-provider-page select{
-
-    width:100%;
-
-    padding:14px 16px;
-
-    border:1px solid #D9E3E1;
-
-    border-radius:14px;
-
-    background:#F8FAF9;
-
-    font-size:15px;
-
-    transition:.2s;
-}
-
-.become-provider-page textarea{
-    resize:vertical;
-    min-height:130px;
-}
-
-.become-provider-page input:focus,
-.become-provider-page textarea:focus,
-.become-provider-page select:focus{
-
-    outline:none;
-
-    border-color:#0F5C55;
-
-    background:white;
-
-    box-shadow:0 0 0 3px rgba(15,92,85,.12);
-}
-
-/* =========================
-   SUBMIT BUTTON
-========================= */
-
-.become-provider-page button{
-
-    margin-top:10px;
-
-    width:100%;
-
-    border:none;
-
-    border-radius:16px;
-
-    background:#0F5C55;
-
-    color:white;
-
-    padding:15px;
-
-    font-size:16px;
-
-    font-weight:700;
-
-    cursor:pointer;
-
-    transition:.2s;
-}
-
-.become-provider-page button:hover{
-
-    transform:translateY(-2px);
-
-    box-shadow:0 8px 18px rgba(15,92,85,.20);
-}
-
-.become-provider-page button:disabled{
-
-    background:#9BA8A5;
-
-    cursor:not-allowed;
-
-    transform:none;
-
-    box-shadow:none;
-}
-
-/* =========================
-   SUCCESS PAGE
-========================= */
-
-.success-container{
-
-    max-width:550px;
-
-    margin:80px auto;
-
-    background:white;
-
-    padding:40px;
-
-    border-radius:24px;
-
-    text-align:center;
-
-    box-shadow:0 10px 24px rgba(0,0,0,.08);
-}
-
-.success-container h1{
-
-    color:#0F5C55;
-
-    margin-bottom:18px;
-
-    font-size:32px;
-
-    font-weight:800;
-}
-
-.success-container p{
-
-    color:#566864;
-
-    margin-bottom:14px;
-
-    font-size:16px;
-
-    line-height:1.6;
-}
-
-.success-container button{
-
-    margin-top:20px;
-
-    width:100%;
-
-    border:none;
-
-    border-radius:16px;
-
-    background:#B7F34A;
-
-    color:#083B37;
-
-    padding:15px;
-
-    font-size:16px;
-
-    font-weight:700;
-
-    cursor:pointer;
-
-    transition:.2s;
-}
-
-.success-container button:hover{
-
-    transform:translateY(-2px);
-
-    box-shadow:0 8px 18px rgba(183,243,74,.35);
-}
-
-/* =========================
-   MOBILE
-========================= */
-
-@media (max-width:768px){
-
-    .become-provider-page{
-
-        margin:20px auto;
-
-        padding:0 15px;
-    }
-
-    .become-provider-page h1{
-
-        font-size:28px;
-    }
-
-    .become-provider-page form{
-
-        padding:20px;
-
-        border-radius:18px;
-    }
-
-    .success-container{
-
-        margin:30px 15px;
-
-        padding:30px 20px;
-    }
-
-}
-
-/* =========================
-   LOGIN PAGE
-========================= */
-
-.login-page{
-    min-height:80vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    padding:40px 20px;
-    background:#f7f9f8;
-}
-
-/* =========================
-   LOGIN CARD
-========================= */
-
-.loginContainer{
-    width:100%;
-    max-width:420px;
-
-    display:flex;
-    flex-direction:column;
-    gap:14px;
-
-    background:#fff;
-    padding:35px;
-
-    border-radius:18px;
-    box-shadow:0 10px 30px rgba(0,0,0,.08);
-}
-
-/* =========================
-   HEADING
-========================= */
-
-.loginContainer h2{
-    margin:0 0 10px;
-    text-align:center;
-
-    color:#0F5C55;
-    font-size:28px;
-    font-weight:800;
-}
-
-/* =========================
-   LABELS
-========================= */
-
-.loginContainer label{
-    font-size:14px;
-    font-weight:600;
-    color:#36534B;
-}
-
-/* =========================
-   INPUTS
-========================= */
-
-.loginContainer input{
-    padding:12px 14px;
-
-    border:1px solid #D9E3E1;
-    border-radius:12px;
-
-    font-size:15px;
-
-    outline:none;
-
-    transition:.25s;
-}
-
-.loginContainer input:focus{
-    border-color:#0F5C55;
-    box-shadow:0 0 0 3px rgba(15,92,85,.12);
-}
-
-/* =========================
-   BUTTON
-========================= */
-
-.loginContainer button{
-    margin-top:10px;
-
-    padding:13px;
-
-    border:none;
-    border-radius:12px;
-
-    background:#0F5C55;
-    color:white;
-
-    font-size:15px;
-    font-weight:700;
-
-    cursor:pointer;
-
-    transition:.25s;
-}
-
-.loginContainer button:hover{
-    background:#0c4c46;
-    transform:translateY(-2px);
-}
-
-.loginContainer button:active{
-    transform:translateY(0);
-}
-
-/* =========================
-   REGISTER LINK
-========================= */
-
-form>a{
-    display:block;
-    margin-top:20px;
-
-    text-align:center;
-
-    color:#0F5C55;
-    text-decoration:none;
-
-    font-weight:600;
-
-    transition:.2s;
-}
-
-form>a:hover{
-    text-decoration:underline;
-}
-
-/* =========================
-   RESPONSIVE
-========================= */
-
-@media (max-width:600px){
-
-    .loginContainer{
-        padding:25px 20px;
-    }
-
-}
-/* Register.css */
-
-.registerContainer {
-    width: 100%;
-    max-width: 520px;
-    margin: 50px auto;
-    padding: 35px;
-    background: #ffffff;
-    border-radius: 16px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.registerContainer h2 {
-    text-align: center;
-    margin-bottom: 15px;
-    color: #1f2937;
-    font-size: 2rem;
-}
-
-.registerContainer label {
-    font-weight: 600;
-    color: #374151;
-    margin-top: 5px;
-}
-
-.registerContainer input {
-    width: 100%;
-    padding: 12px 14px;
-    border: 1px solid #d1d5db;
-    border-radius: 8px;
-    font-size: 15px;
-    transition: all 0.25s ease;
-    box-sizing: border-box;
-}
-
-.registerContainer input:focus {
-    outline: none;
-    border-color: #2563eb;
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
-}
-
-.registerContainer button {
-    margin-top: 20px;
-    padding: 14px;
-    border: none;
-    border-radius: 8px;
-    background: #2563eb;
-    color: white;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.25s ease;
-}
-
-.registerContainer button:hover {
-    background: #1d4ed8;
-    transform: translateY(-2px);
-}
-
-.registerContainer button:active {
-    transform: translateY(0);
-}
-
-body {
-    background: #f4f6f9;
-}
-
-@media (max-width: 600px) {
-
-    .registerContainer {
-        margin: 20px;
-        padding: 25px;
-    }
-
-    .registerContainer h2 {
-        font-size: 1.7rem;
-    }
-
+ .request-card{
+  grid-template-columns:1fr;
+ }
+ .request-page,
+ .create-service-container,
+ .become-provider-page,
+ .login-page{
+  padding:20px 15px;
+ }
+ .request-card,
+ .create-service-container form,
+ .become-provider-page form,
+ .loginContainer,
+ .registerContainer{
+  padding:20px;
+ }
 }
