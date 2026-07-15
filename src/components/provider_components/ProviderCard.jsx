@@ -25,7 +25,7 @@ function ProviderCard({ provider, currentUserId, onDelete }) {
   // IDs (FIXED)
   // =========================
 
-  const serviceId = provider.id;
+  const serviceId = provider.id; // ✅ SERVICE ID (IMPORTANT FIX)
 
   const providerOwnerId =
     provider.providerId ||
@@ -50,9 +50,7 @@ function ProviderCard({ provider, currentUserId, onDelete }) {
         </div>
       )}
 
-      {/* ========================= */}
       {/* HEADER */}
-      {/* ========================= */}
       <div className="provider-header">
 
         <h2>{provider.title || "Service"}</h2>
@@ -65,9 +63,7 @@ function ProviderCard({ provider, currentUserId, onDelete }) {
 
       </div>
 
-      {/* ========================= */}
       {/* MAIN INFO */}
-      {/* ========================= */}
       <div className="provider-info">
 
         <h3
@@ -79,27 +75,19 @@ function ProviderCard({ provider, currentUserId, onDelete }) {
 
         <p>{provider.description}</p>
 
-        <p>
-          <strong>Category:</strong> {provider.category}
-        </p>
+        <p><strong>Category:</strong> {provider.category}</p>
 
-        <p>
-          <strong>Location:</strong> {provider.location}
-        </p>
+        <p><strong>Location:</strong> {provider.location}</p>
 
-        <p>
-          <strong>Price:</strong> R{provider.price}
-        </p>
+        <p><strong>Price:</strong> R{provider.price}</p>
 
-        <p>
-          <strong>Experience:</strong> {provider.yearsExperience} years
-        </p>
+        <p><strong>Phone:</strong> {provider.providerPhoneNumber || "N/A"}</p>
+
+        <p><strong>Experience:</strong> {provider.yearsExperience} years</p>
 
       </div>
 
-      {/* ========================= */}
       {/* STATUS */}
-      {/* ========================= */}
       <div className="provider-status">
 
         <span className={isAvailable ? "status-open" : "status-closed"}>
@@ -108,9 +96,7 @@ function ProviderCard({ provider, currentUserId, onDelete }) {
 
       </div>
 
-      {/* ========================= */}
       {/* CONTACT + OWNER ACTIONS */}
-      {/* ========================= */}
       <div className="provider-actions">
 
         {whatsappNumber && (
@@ -133,6 +119,9 @@ function ProviderCard({ provider, currentUserId, onDelete }) {
         {isOwner && (
           <div className="owner-actions">
 
+            {/* ========================= */}
+            {/* FIXED EDIT */}
+            {/* ========================= */}
             <button
               className="edit-btn"
               onClick={() => navigate(`/services/edit/${serviceId}`)}
@@ -140,6 +129,9 @@ function ProviderCard({ provider, currentUserId, onDelete }) {
               ✏️ Edit Service
             </button>
 
+            {/* ========================= */}
+            {/* FIXED DELETE */}
+            {/* ========================= */}
             <button
               className="delete-btn"
               onClick={() => onDelete(serviceId)}
