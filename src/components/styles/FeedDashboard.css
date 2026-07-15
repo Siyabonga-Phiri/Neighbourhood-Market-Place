@@ -35,7 +35,7 @@
 
     background:transparent;
 
-    padding:40px 30px 70px;
+    padding:40px 30px 25px;
 
     position:relative;
 
@@ -55,7 +55,7 @@
 
     max-width:980px;
 
-    margin:30px auto 0;
+     margin:14px auto 0;
 
     display:flex;
 
@@ -136,7 +136,7 @@
 
     gap:12px;
 
-    padding:10px 0 22px;
+    padding:10px 0 8px;
 
     flex-wrap:wrap;
 }
@@ -177,8 +177,7 @@
 
     max-width:1080px;
 
-    margin:25px auto 30px;
-
+      margin:8px auto 30px;
     display:grid;
 
     grid-template-columns:170px 1fr;
@@ -585,7 +584,7 @@
 
     max-width:980px;
 
-    margin:-28px auto 40px;
+    margin:0 auto 18px;
 
     display:grid;
 
