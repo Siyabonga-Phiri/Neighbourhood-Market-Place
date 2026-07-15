@@ -219,26 +219,94 @@ export default function RequestCard({ request, onDelete }) {
 
     };
 
-    return (
+return (
 
-        <div className="request-card">
+    <div className="request-card">
 
-            {/* LEFT IMAGE */}
+        {/* IMAGE */}
 
-            <div className="request-image">
+        <div className="request-image">
 
-                {request.imageURL ? (
+            {request.imageURL ? (
 
-                    <img
-                        src={request.imageURL}
-                        alt={request.title}
-                    />
+                <img
+                    src={request.imageURL}
+                    alt={request.title}
+                />
 
-                ) : (
+            ) : (
 
-                    <div className="request-placeholder">
+                <div className="request-placeholder">
+                    📷
+                </div>
 
-                        📷
+            )}
+
+        </div>
+
+        {/* CONTENT */}
+
+        <div className="request-content">
+
+            {/* TOP BAR */}
+
+            <div className="request-top">
+
+                <span
+                    className={`status-badge ${
+                        isClosed ? "closed" : "open"
+                    }`}
+                >
+                    {isClosed ? "Completed" : "Open"}
+                </span>
+
+                {isOwner && (
+
+                    <div className="more-actions">
+
+                        <button
+                            className="more-btn"
+                            onClick={() =>
+                                setShowMenu(!showMenu)
+                            }
+                        >
+                            ⋮
+                        </button>
+
+                        {showMenu && (
+
+                            <div className="actions-menu">
+
+                                <button
+                                    onClick={() =>
+                                        navigate(
+                                            `/requests/edit/${request.id}`
+                                        )
+                                    }
+                                >
+                                    Edit Request
+                                </button>
+
+                                {!isClosed && !isAccepted && (
+
+                                    <button
+                                        onClick={closeRequest}
+                                    >
+                                        Close Request
+                                    </button>
+
+                                )}
+
+                                <button
+                                    className="delete-action"
+                                    onClick={deleteRequest}
+                                >
+                                    Delete Request
+                                </button>
+
+                            </div>
+
+                        )}
 
                     </div>
 
@@ -246,260 +314,262 @@ export default function RequestCard({ request, onDelete }) {
 
             </div>
 
-            {/* RIGHT CONTENT */}
+            {/* TITLE */}
 
-            <div className="request-content">
+            <h2 className="request-title">
 
-                {/* HEADER */}
+                {request.title}
 
-                <div className="request-header">
+            </h2>
 
-                    <span className="request-badge">
-                        REQUEST
+            {/* DESCRIPTION */}
+
+            <p className="request-description">
+
+                {request.description}
+
+            </p>
+
+            {/* DETAILS */}
+
+            <div className="request-details">
+
+                <div className="detail-item">
+
+                    <span className="detail-label">
+                        Budget
                     </span>
 
-                    <span
-                        className={`status-badge ${
-                            isClosed ? "closed" : "open"
-                        }`}
-                    >
-                        {isClosed ? "CLOSED" : "OPEN"}
-                    </span>
+                    <strong>
+                        R{request.budget}
+                    </strong>
 
                 </div>
 
-                {/* TITLE */}
+                <div className="detail-item">
 
-                <h3>
-                    {request.title}
-                </h3>
-
-                {/* INFO ROW */}
-
-                <div className="request-meta">
-
-                    <span>
-                        🛠 {request.service}
+                    <span className="detail-label">
+                        Service
                     </span>
 
-                    <span>
-                        📍 {request.location}
-                    </span>
-
-                    <span>
-                        💰 R{request.budget}
-                    </span>
+                    <strong>
+                        {request.service}
+                    </strong>
 
                 </div>
 
-                {/* DESCRIPTION */}
+                <div className="detail-item">
 
-                <p className="request-description">
-                    {request.description}
-                </p>
+                    <span className="detail-label">
+                        Location
+                    </span>
 
-                {/* BUTTON ROW */}
-
-                <div className="request-actions">
-
-                    <button
-                        className="profile-btn"
-                        onClick={() =>
-                            navigate(`/profile/${requestOwnerId}`)
-                        }
-                    >
-                        View Client Profile
-                    </button>
-
-                    {isOwner && (
-
-                        <div className="owner-actions">
-
-                            <button
-                                onClick={() =>
-                                    navigate(
-                                        `/requests/edit/${request.id}`
-                                    )
-                                }
-                            >
-                                ✏️ Edit
-                            </button>
-
-                            <button
-                                onClick={deleteRequest}
-                            >
-                                🗑 Delete
-                            </button>
-
-                        </div>
-
-                    )}
+                    <strong>
+                        {request.location}
+                    </strong>
 
                 </div>
-                                {/* =========================
-                    PROVIDER RESPONSE
-                ========================= */}
-                {isProvider &&
-                    !isOwner &&
-                    !isClosed &&
-                    !alreadyResponded &&
-                    !isAccepted && (
 
-                        <div className="proposal-section">
+                <div className="detail-item">
 
-                            <h4>Send Proposal</h4>
+                    <span className="detail-label">
+                        Posted By
+                    </span>
 
-                            <textarea
-                                placeholder="Describe how you can help..."
-                                value={proposal}
-                                onChange={(e) =>
-                                    setProposal(e.target.value)
-                                }
-                            />
+                    <strong>
 
-                            <button
-                                className="respond-btn"
-                                onClick={respondToRequest}
-                                disabled={loading}
-                            >
-                                {loading ? "Sending..." : "Respond"}
-                            </button>
+                        {request.user?.firstName ||
+                            request.user?.name ||
+                            "Client"}
 
-                        </div>
+                    </strong>
 
-                    )}
-
-                {/* =========================
-                    ACCEPTED PROVIDER
-                ========================= */}
-                {isOwner &&
-                    acceptedBooking &&
-                    providerPhone && (
-
-                        <div className="responses-section">
-
-                            <h4>✅ Provider Selected</h4>
-
-                            <div className="response-item">
-
-                                <p>
-                                    <strong>{providerName}</strong>
-                                </p>
-
-                                <p>{providerPhone}</p>
-
-                                <a
-                                    href={`https://wa.me/${providerPhone}`}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                >
-                                    <button className="whatsapp-btn">
-                                        Chat on WhatsApp
-                                    </button>
-                                </a>
-
-                            </div>
-
-                        </div>
-
-                    )}
-
-                {/* =========================
-                    PROVIDER PROPOSALS
-                ========================= */}
-
-                {isOwner &&
-                    responses.length > 0 && (
-
-                        <div className="responses-section">
-
-                            <h4>
-                                Provider Proposals
-                            </h4>
-
-                            {responses.map((r) => (
-
-                                <div
-                                    key={r.id}
-                                    className="response-item"
-                                >
-
-                                    <p>
-                                        <strong>
-                                            {r.provider?.name ||
-                                                r.provider?.firstName}
-                                        </strong>
-                                    </p>
-
-                                    <p>
-                                        {r.notes}
-                                    </p>
-
-                                    <p>
-                                        Status:
-                                        {" "}
-                                        <strong>
-                                            {r.status}
-                                        </strong>
-                                    </p>
-
-                                    {r.status === "PENDING" &&
-                                        !isClosed &&
-                                        !isAccepted && (
-
-                                            <div className="response-actions">
-
-                                                <button
-                                                    className="accept-btn"
-                                                    onClick={() =>
-                                                        acceptProvider(r.id)
-                                                    }
-                                                >
-                                                    Accept
-                                                </button>
-
-                                                <button
-                                                    className="reject-btn"
-                                                    onClick={() =>
-                                                        rejectProvider(r.id)
-                                                    }
-                                                >
-                                                    Reject
-                                                </button>
-
-                                            </div>
-
-                                        )}
-
-                                </div>
-
-                            ))}
-
-                        </div>
-
-                    )}
-
-                {/* =========================
-                    CLOSE REQUEST
-                ========================= */}
-
-                {isOwner &&
-                    !isClosed &&
-                    !isAccepted && (
-
-                        <button
-                            className="close-request-btn"
-                            onClick={closeRequest}
-                        >
-                            Close Request
-                        </button>
-
-                    )}
+                </div>
 
             </div>
 
+            {/* MAIN ACTION */}
+
+            <div className="request-footer">
+
+                <button
+                    className="profile-btn"
+                    onClick={() =>
+                        navigate(`/profile/${requestOwnerId}`)
+                    }
+                >
+                    View Client Profile
+                </button>
+
+            </div>
+
+            {/* PROVIDER PROPOSAL */}
+
+            {isProvider &&
+                !isOwner &&
+                !isClosed &&
+                !alreadyResponded &&
+                !isAccepted && (
+
+                    <div className="proposal-section">
+
+                        <h4>
+                            Send Proposal
+                        </h4>
+
+                        <textarea
+                            placeholder="Describe how you can help..."
+                            value={proposal}
+                            onChange={(e) =>
+                                setProposal(e.target.value)
+                            }
+                        />
+
+                        <button
+                            className="respond-btn"
+                            onClick={respondToRequest}
+                            disabled={loading}
+                        >
+                            {loading
+                                ? "Sending..."
+                                : "Send Proposal"}
+                        </button>
+
+                    </div>
+
+                )}
+
+            {/* ACCEPTED PROVIDER */}
+
+            {isOwner &&
+                acceptedBooking &&
+                providerPhone && (
+
+                    <div className="responses-section">
+
+                        <h4>
+                            Selected Provider
+                        </h4>
+
+                        <div className="response-item">
+
+                            <strong>
+
+                                {providerName}
+
+                            </strong>
+
+                            <p>
+
+                                {providerPhone}
+
+                            </p>
+
+                            <a
+                                href={`https://wa.me/${providerPhone}`}
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+
+                                <button className="whatsapp-btn">
+
+                                    Chat on WhatsApp
+
+                                </button>
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                )}
+
+            {/* RESPONSES */}
+
+            {isOwner &&
+                responses.length > 0 && (
+
+                    <div className="responses-section">
+
+                        <h4>
+
+                            Provider Proposals
+
+                        </h4>
+
+                        {responses.map((r) => (
+
+                            <div
+                                key={r.id}
+                                className="response-item"
+                            >
+
+                                <strong>
+
+                                    {r.provider?.name ||
+                                        r.provider?.firstName}
+
+                                </strong>
+
+                                <p>
+
+                                    {r.notes}
+
+                                </p>
+
+                                <p>
+
+                                    Status :
+                                    {" "}
+                                    <strong>
+
+                                        {r.status}
+
+                                    </strong>
+
+                                </p>
+
+                                {r.status === "PENDING" &&
+                                    !isClosed &&
+                                    !isAccepted && (
+
+                                        <div className="response-actions">
+
+                                            <button
+                                                className="accept-btn"
+                                                onClick={() =>
+                                                    acceptProvider(r.id)
+                                                }
+                                            >
+                                                Accept
+                                            </button>
+
+                                            <button
+                                                className="reject-btn"
+                                                onClick={() =>
+                                                    rejectProvider(r.id)
+                                                }
+                                            >
+                                                Reject
+                                            </button>
+
+                                        </div>
+
+                                    )}
+
+                            </div>
+
+                        ))}
+
+                    </div>
+
+                )}
+
         </div>
 
-    );
+    </div>
+
+);
 
 }

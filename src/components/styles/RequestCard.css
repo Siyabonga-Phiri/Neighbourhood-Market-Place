@@ -1,325 +1,805 @@
-/* =========================
-   REQUEST CARD - COMPACT MODERN LAYOUT
-========================= */
+/* ==================================================
+   REQUEST CARD
+================================================== */
 
 .request-card{
+    display:flex;
     width:100%;
-    background:white;
+    background:#FAF8F0;
+    border:1px solid #E8E2D0;
     border-radius:18px;
     overflow:hidden;
-
-    display:flex;
-    box-shadow:0 8px 22px rgba(0,0,0,.08);
-
-    margin-bottom:14px;
-    min-height:170px;
+    box-shadow:0 8px 20px rgba(0,0,0,.06);
+    transition:.25s ease;
+    position:relative;
 }
 
-/* =========================
-   IMAGE SECTION
-========================= */
+.request-card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 16px 32px rgba(0,0,0,.10);
+}
+
+/* ==================================================
+   IMAGE
+================================================== */
 
 .request-image{
-    width:140px;
-    min-width:140px;
-    height:auto;
-    background:#f3f3f3;
+    width:180px;
+    min-width:180px;
+    background:#ECE8DA;
+    overflow:hidden;
 }
 
 .request-image img{
     width:100%;
     height:100%;
-    min-height:170px;
     object-fit:cover;
     display:block;
 }
 
 .request-placeholder{
-    width:100%;
     height:100%;
-    min-height:170px;
+    min-height:220px;
+
     display:flex;
     align-items:center;
     justify-content:center;
-    font-size:28px;
-    color:#999;
+
+    font-size:48px;
+
+    color:#8A958D;
+
+    background:#ECE8DA;
 }
 
-/* =========================
-   CONTENT AREA
-========================= */
+/* ==================================================
+   CONTENT
+================================================== */
 
 .request-content{
+
     flex:1;
+
     display:flex;
+
     flex-direction:column;
-    padding:10px 12px;
-    gap:6px;
+
+    padding:22px;
+
+    gap:18px;
 }
 
-/* =========================
-   HEADER
-========================= */
+/* ==================================================
+   TOP BAR
+================================================== */
 
-.request-header{
+.request-top{
+
     display:flex;
+
     justify-content:space-between;
-    align-items:center;
+
+    align-items:flex-start;
+
+    position:relative;
 }
 
-.request-badge{
-    background:#0F5C55;
-    color:white;
-    padding:4px 10px;
-    border-radius:18px;
-    font-size:11px;
-    font-weight:800;
-}
+/* ==================================================
+   STATUS
+================================================== */
 
 .status-badge{
-    padding:4px 10px;
-    border-radius:18px;
-    font-size:11px;
-    font-weight:800;
+
+    padding:7px 16px;
+
+    border-radius:30px;
+
+    font-size:12px;
+
+    font-weight:700;
+
+    letter-spacing:.5px;
 }
 
 .status-badge.open{
-    background:#B7F34A;
-    color:#083B37;
+
+    background:#DDF1B3;
+
+    color:#2F5A22;
 }
 
 .status-badge.closed{
-    background:#FEE2E2;
-    color:#991B1B;
+
+    background:#F9D8D8;
+
+    color:#8B2323;
 }
 
-/* =========================
+/* ==================================================
    TITLE
-========================= */
+================================================== */
 
-.request-content h3{
+.request-title{
+
     margin:0;
-    font-size:18px;
-    font-weight:800;
-    color:#0F5C55;
+
+    color:#184C46;
+
+    font-size:28px;
+
+    font-weight:700;
+
     line-height:1.2;
 }
 
-/* =========================
-   META INFO ROW
-========================= */
-
-.request-meta{
-    display:flex;
-    flex-wrap:wrap;
-    gap:10px;
-    font-size:19.5px;
-    color:#36534B;
-}
-
-.request-meta span{
-    background:#f6f6f6;
-    padding:3px 8px;
-    border-radius:10px;
-}
-
-/* =========================
+/* ==================================================
    DESCRIPTION
-========================= */
+================================================== */
 
 .request-description{
+
     margin:0;
-    font-size:17px;
-    color:#36534B;
-    line-height:1.3;
+
+    color:#5D6966;
+
+    font-size:15px;
+
+    line-height:1.6;
 
     display:-webkit-box;
+
     -webkit-line-clamp:2;
+
     -webkit-box-orient:vertical;
+
     overflow:hidden;
 }
 
-/* =========================
-   ACTION ROW
-========================= */
+/* ==================================================
+   DETAILS GRID
+================================================== */
 
-.request-actions{
+.request-details{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,minmax(180px,1fr));
+
+    gap:16px;
+}
+
+.detail-item{
+
     display:flex;
-    justify-content:space-between;
+
+    flex-direction:column;
+
+    background:white;
+
+    border:1px solid #ECE6D8;
+
+    border-radius:14px;
+
+    padding:12px 16px;
+}
+
+.detail-label{
+
+    font-size:12px;
+
+    color:#7D8784;
+
+    text-transform:uppercase;
+
+    letter-spacing:.4px;
+
+    margin-bottom:4px;
+}
+
+.detail-item strong{
+
+    font-size:17px;
+
+    color:#184C46;
+}
+
+/* ==================================================
+   FOOTER
+================================================== */
+
+.request-footer{
+
+    display:flex;
+
+    justify-content:flex-end;
+
     align-items:center;
-    gap:10px;
+
     margin-top:auto;
 }
 
+/* ==================================================
+   PROFILE BUTTON
+================================================== */
+
 .profile-btn{
-    background:#0F5C55;
+
+    background:#184C46;
+
     color:white;
+
     border:none;
-    padding:7px 12px;
-    border-radius:20px;
-    font-size:13px;
+
+    border-radius:12px;
+
+    padding:12px 22px;
+
+    font-size:14px;
+
     font-weight:700;
+
     cursor:pointer;
+
+    transition:.2s;
 }
 
-/* =========================
-   OWNER ACTIONS
-========================= */
+.profile-btn:hover{
 
-.owner-actions{
-    display:flex;
-    gap:6px;
+    background:#103C38;
 }
 
-.owner-actions button{
+/* ==================================================
+   MORE ACTIONS
+================================================== */
+
+.more-actions{
+
+    position:relative;
+}
+
+.more-btn{
+
+    width:42px;
+
+    height:42px;
+
     border:none;
-    padding:6px 10px;
-    border-radius:16px;
-    font-size:12px;
-    font-weight:700;
+
+    border-radius:12px;
+
+    background:#EEF2E6;
+
+    color:#184C46;
+
+    font-size:24px;
+
     cursor:pointer;
+
+    transition:.2s;
 }
 
-.owner-actions button:first-child{
-    background:#B7F34A;
-    color:#083B37;
+.more-btn:hover{
+
+    background:#DCE8C8;
 }
 
-.owner-actions button:last-child{
-    background:#FEE2E2;
-    color:#991B1B;
+.actions-menu{
+
+    position:absolute;
+
+    right:0;
+
+    top:48px;
+
+    width:190px;
+
+    background:white;
+
+    border-radius:14px;
+
+    border:1px solid #E7E1D3;
+
+    box-shadow:0 15px 35px rgba(0,0,0,.12);
+
+    overflow:hidden;
+
+    z-index:100;
 }
 
-/* =========================
+.actions-menu button{
+
+    width:100%;
+
+    border:none;
+
+    background:white;
+
+    text-align:left;
+
+    padding:14px 18px;
+
+    font-size:14px;
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+.actions-menu button:hover{
+
+    background:#F4F5EF;
+}
+
+.delete-action{
+
+    color:#C53030;
+
+    font-weight:700;
+}
+/* ==================================================
    PROPOSAL SECTION
-========================= */
+================================================== */
 
 .proposal-section{
-    margin-top:8px;
+
+    margin-top:10px;
+
+    background:#F9F8F3;
+
+    border:1px solid #E8E2D0;
+
+    border-radius:16px;
+
+    padding:18px;
+
     display:flex;
+
     flex-direction:column;
-    gap:6px;
+
+    gap:14px;
 }
 
 .proposal-section h4{
+
     margin:0;
-    font-size:13px;
-    color:#0F5C55;
+
+    font-size:18px;
+
+    color:#184C46;
+
+    font-weight:700;
 }
 
 .proposal-section textarea{
-    min-height:55px;
-    padding:8px;
-    border-radius:10px;
-    border:1px solid #ddd;
-    font-size:13px;
+
+    width:100%;
+
+    min-height:120px;
+
+    resize:vertical;
+
+    padding:14px;
+
+    border:1px solid #D8D2C2;
+
+    border-radius:12px;
+
+    font-size:14px;
+
+    font-family:inherit;
+
+    background:white;
+
+    outline:none;
+
+    transition:.2s;
+}
+
+.proposal-section textarea:focus{
+
+    border-color:#A4C46B;
+
+    box-shadow:0 0 0 3px rgba(164,196,107,.15);
 }
 
 .respond-btn{
-    background:#0F5C55;
-    color:white;
+
+    align-self:flex-end;
+
     border:none;
-    padding:7px 12px;
+
+    background:#184C46;
+
+    color:white;
+
+    padding:12px 24px;
+
+    border-radius:12px;
+
+    font-size:14px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+.respond-btn:hover{
+
+    background:#103C38;
+}
+
+.respond-btn:disabled{
+
+    opacity:.6;
+
+    cursor:not-allowed;
+}
+
+/* ==================================================
+   RESPONSES
+================================================== */
+
+.responses-section{
+
+    margin-top:12px;
+
+    background:#F9F8F3;
+
+    border:1px solid #E8E2D0;
+
     border-radius:16px;
-    font-size:13px;
+
+    padding:18px;
+}
+
+.responses-section h4{
+
+    margin:0 0 14px;
+
+    color:#184C46;
+
+    font-size:18px;
+
     font-weight:700;
 }
 
-/* =========================
-   RESPONSES SECTION
-========================= */
-
-.responses-section{
-    margin-top:8px;
-    padding:10px;
-    background:#F8F4E8;
-    border-radius:12px;
-}
+/* ==================================================
+   RESPONSE CARD
+================================================== */
 
 .response-item{
+
     background:white;
-    padding:8px;
-    border-radius:10px;
-    margin-top:6px;
-    font-size:12.5px;
+
+    border:1px solid #ECE6D8;
+
+    border-radius:14px;
+
+    padding:16px;
+
+    margin-bottom:14px;
+
+    transition:.2s;
 }
 
-/* response buttons */
+.response-item:last-child{
+
+    margin-bottom:0;
+}
+
+.response-item:hover{
+
+    border-color:#D8DCCB;
+
+    box-shadow:0 6px 18px rgba(0,0,0,.05);
+}
+
+.response-item strong{
+
+    display:block;
+
+    color:#184C46;
+
+    font-size:16px;
+
+    margin-bottom:8px;
+}
+
+.response-item p{
+
+    margin:6px 0;
+
+    color:#5D6966;
+
+    line-height:1.5;
+
+    font-size:14px;
+}
+
+/* ==================================================
+   ACCEPT / REJECT
+================================================== */
+
 .response-actions{
+
     display:flex;
-    gap:6px;
-    margin-top:6px;
+
+    gap:10px;
+
+    margin-top:16px;
 }
 
 .accept-btn{
-    background:#B7F34A;
+
+    flex:1;
+
     border:none;
-    padding:6px 10px;
-    border-radius:14px;
-    font-size:12px;
+
+    background:#A4C46B;
+
+    color:#183E39;
+
+    padding:11px;
+
+    border-radius:10px;
+
     font-weight:700;
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+.accept-btn:hover{
+
+    background:#93B45B;
 }
 
 .reject-btn{
-    background:#FEE2E2;
+
+    flex:1;
+
     border:none;
-    padding:6px 10px;
-    border-radius:14px;
-    font-size:12px;
+
+    background:#F3D8D8;
+
+    color:#992828;
+
+    padding:11px;
+
+    border-radius:10px;
+
     font-weight:700;
+
+    cursor:pointer;
+
+    transition:.2s;
 }
+
+.reject-btn:hover{
+
+    background:#ECC3C3;
+}
+
+/* ==================================================
+   WHATSAPP
+================================================== */
 
 .whatsapp-btn{
-    background:#25D366;
-    color:white;
+
+    margin-top:14px;
+
+    width:100%;
+
     border:none;
-    padding:7px 12px;
-    border-radius:16px;
-    font-size:13px;
+
+    background:#25D366;
+
+    color:white;
+
+    padding:12px;
+
+    border-radius:10px;
+
+    font-size:14px;
+
     font-weight:700;
+
+    cursor:pointer;
+
+    transition:.2s;
 }
 
-/* =========================
-   CLOSE BUTTON
-========================= */
+.whatsapp-btn:hover{
+
+    background:#1EBE5D;
+}
+
+/* ==================================================
+   CLOSE REQUEST
+================================================== */
 
 .close-request-btn{
-    margin-top:8px;
-    background:#991B1B;
-    color:white;
+
+    margin-top:16px;
+
+    align-self:flex-end;
+
     border:none;
-    padding:7px 12px;
-    border-radius:16px;
-    font-size:13px;
+
+    background:#B93C3C;
+
+    color:white;
+
+    padding:12px 22px;
+
+    border-radius:12px;
+
+    font-size:14px;
+
     font-weight:700;
+
+    cursor:pointer;
+
+    transition:.2s;
 }
 
-/* =========================
-   MOBILE
-========================= */
+.close-request-btn:hover{
 
-@media (max-width:768px){
+    background:#9E2F2F;
+}
+
+/* ==================================================
+   LINKS
+================================================== */
+
+.responses-section a{
+
+    text-decoration:none;
+}
+
+/* ==================================================
+   TABLETS
+================================================== */
+
+@media (max-width:992px){
 
     .request-card{
+
         flex-direction:column;
     }
 
     .request-image{
+
         width:100%;
+
         min-width:100%;
-        height:160px;
+
+        height:220px;
     }
 
     .request-image img{
-        min-height:160px;
+
+        height:220px;
     }
 
-    .request-actions{
-        flex-direction:column;
-        align-items:flex-start;
+    .request-placeholder{
+
+        min-height:220px;
     }
 
-    .owner-actions{
+    .request-details{
+
+        grid-template-columns:1fr;
+    }
+
+    .request-footer{
+
+        justify-content:stretch;
+    }
+
+    .profile-btn{
+
         width:100%;
     }
+
+}
+
+/* ==================================================
+   MOBILE
+================================================== */
+
+@media (max-width:768px){
+
+    .request-content{
+
+        padding:16px;
+
+        gap:14px;
+    }
+
+    .request-title{
+
+        font-size:22px;
+    }
+
+    .request-description{
+
+        font-size:14px;
+    }
+
+    .detail-item{
+
+        padding:10px 12px;
+    }
+
+    .detail-item strong{
+
+        font-size:15px;
+    }
+
+    .proposal-section{
+
+        padding:14px;
+    }
+
+    .proposal-section textarea{
+
+        min-height:90px;
+    }
+
+    .response-actions{
+
+        flex-direction:column;
+    }
+
+    .accept-btn,
+    .reject-btn{
+
+        width:100%;
+    }
+
+    .actions-menu{
+
+        width:170px;
+    }
+
+}
+
+/* ==================================================
+   SMALL DEVICES
+================================================== */
+
+@media (max-width:480px){
+
+    .request-title{
+
+        font-size:20px;
+    }
+
+    .status-badge{
+
+        font-size:11px;
+
+        padding:6px 12px;
+    }
+
+    .more-btn{
+
+        width:38px;
+
+        height:38px;
+
+        font-size:20px;
+    }
+
+    .profile-btn{
+
+        font-size:13px;
+
+        padding:11px 18px;
+    }
+
 }
