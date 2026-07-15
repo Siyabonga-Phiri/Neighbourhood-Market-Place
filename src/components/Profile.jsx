@@ -11,25 +11,18 @@ export default function Profile() {
   const { user } = useContext(AuthContext);
 
   const [profile, setProfile] = useState(null);
-
   const [requests, setRequests] = useState([]);
-
   const [services, setServices] = useState([]);
-
   const [bookingsAsProvider, setBookingsAsProvider] = useState([]);
-
   const [bookingsAsClient, setBookingsAsClient] = useState([]);
-
   const [activeTab, setActiveTab] = useState("requests");
 
   const [loading, setLoading] = useState(true);
 
   const [image, setImage] = useState(null);
-
   const [uploading, setUploading] = useState(false);
 
   const [editing, setEditing] = useState(false);
-
   const [bio, setBio] = useState("");
 
   const isOwner = user?.id == userId;
@@ -43,17 +36,16 @@ export default function Profile() {
       setLoading(true);
 
       const profileRes = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/users/profile/${userId}`,
+        `${import.meta.env.VITE_API_URL}/api/users/profile/${userId}`
       );
 
       const profileData = await profileRes.json();
 
       setProfile(profileData);
-
       setBio(profileData.bio || "");
 
       const requestRes = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/requests/user/${userId}`,
+        `${import.meta.env.VITE_API_URL}/api/requests/user/${userId}`
       );
 
       const requestData = await requestRes.json();
@@ -61,7 +53,7 @@ export default function Profile() {
       setRequests(Array.isArray(requestData) ? requestData : []);
 
       const serviceRes = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/services/provider/${userId}`,
+        `${import.meta.env.VITE_API_URL}/api/services/provider/${userId}`
       );
 
       const serviceData = await serviceRes.json();
@@ -69,7 +61,7 @@ export default function Profile() {
       setServices(Array.isArray(serviceData) ? serviceData : []);
 
       const clientBookingRes = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/bookings/user/${userId}`,
+        `${import.meta.env.VITE_API_URL}/api/bookings/user/${userId}`
       );
 
       const clientData = await clientBookingRes.json();
@@ -77,7 +69,7 @@ export default function Profile() {
       setBookingsAsClient(Array.isArray(clientData) ? clientData : []);
 
       const providerBookingRes = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/bookings/provider/${userId}`,
+        `${import.meta.env.VITE_API_URL}/api/bookings/provider/${userId}`
       );
 
       const providerData = await providerBookingRes.json();
@@ -97,30 +89,29 @@ export default function Profile() {
       setUploading(true);
 
       const formData = new FormData();
-
       formData.append("image", image);
 
-      const uploadRes = await fetch(`${import.meta.env.VITE_API_URL}/api/upload/image`, {
-        method: "POST",
-        body: formData,
-      });
+      const uploadRes = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/upload/image`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
 
       const uploadData = await uploadRes.json();
 
       await fetch(
         `${import.meta.env.VITE_API_URL}/api/users/profile-image/${userId}`,
-
         {
           method: "PUT",
-
           headers: {
             "Content-Type": "application/json",
           },
-
           body: JSON.stringify({
             profileImage: uploadData.imageUrl,
           }),
-        },
+        }
       );
 
       fetchProfile();
@@ -134,293 +125,587 @@ export default function Profile() {
   const saveBio = async () => {
     await fetch(
       `${import.meta.env.VITE_API_URL}/api/users/profile/${userId}`,
-
       {
         method: "PUT",
-
         headers: {
           "Content-Type": "application/json",
         },
-
         body: JSON.stringify({
-          bio: bio,
+          bio,
         }),
-      },
+      }
     );
 
     setEditing(false);
-
     fetchProfile();
   };
 
   const isAccepted = (status) => status?.toUpperCase?.() === "ACCEPTED";
 
   const activeProviderJobs = bookingsAsProvider.filter((b) =>
-    isAccepted(b.status),
+    isAccepted(b.status)
   );
 
-  const activeClientJobs = bookingsAsClient.filter((b) => isAccepted(b.status));
+  const activeClientJobs = bookingsAsClient.filter((b) =>
+    isAccepted(b.status)
+  );
 
   if (loading) return <p>Loading profile...</p>;
 
   if (!profile) return <p>User not found</p>;
-
   return (
-    <div className="profile-container">
-      <div className="profile-header">
-        <div className="profile-avatar">
+  <div className="profile-container">
+
+    <section className="profile-hero">
+
+      <div className="profile-cover" />
+
+      <div className="profile-hero-content">
+
+        <div className="profile-avatar-large">
           {profile.profileImage ? (
             <img
               src={profile.profileImage}
-              alt="profile"
-              style={{
-                width: "60px",
-
-                height: "60px",
-
-                borderRadius: "50%",
-              }}
+              alt="Profile"
             />
           ) : (
             <>
               {profile.firstName?.charAt(0)}
-
               {profile.lastName?.charAt(0)}
             </>
           )}
         </div>
 
-        <div>
-          <h1>
-            {profile.firstName}
+        <div className="profile-details">
 
-            {profile.lastName}
-          </h1>
+          <div className="profile-name-row">
 
-          <p>{profile.location}</p>
+            <div>
 
-          <p className="email">{profile.email}</p>
+              <h1>
+                {profile.firstName} {profile.lastName}
+              </h1>
 
-          <p>{profile.bio || "No bio added"}</p>
+              <span className="profile-role">
+                {profile.role === "ROLE_PROVIDER"
+                  ? "Service Provider"
+                  : "Community Member"}
+              </span>
 
-          {isOwner && !editing && (
-            <button onClick={() => setEditing(true)}>Edit Profile</button>
-          )}
+            </div>
+
+            {isOwner && !editing && (
+              <button
+                className="edit-profile-btn"
+                onClick={() => setEditing(true)}
+              >
+                Edit Profile
+              </button>
+            )}
+
+          </div>
+
+          <div className="profile-meta">
+
+            <span>📍 {profile.location || "Location not provided"}</span>
+
+            <span>{profile.email}</span>
+
+          </div>
+
+          <p className="profile-bio">
+            {profile.bio ||
+              "Tell your community a little about yourself."}
+          </p>
 
           {isOwner && editing && (
-            <div className="edit-profile-box">
+
+            <div className="edit-profile-card">
+
+              <h3>Edit Profile</h3>
+
               <textarea
                 value={bio}
                 onChange={(e) => setBio(e.target.value)}
-                placeholder="Write your bio"
+                placeholder="Tell people about yourself..."
               />
 
-              <button onClick={saveBio}>Save Bio</button>
+              <div className="profile-edit-actions">
 
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(e) => setImage(e.target.files[0])}
-              />
+                <button
+                  className="save-btn"
+                  onClick={saveBio}
+                >
+                  Save Bio
+                </button>
 
-              <button onClick={handleImageUpload} disabled={uploading}>
-                {uploading ? "Uploading..." : "Upload Picture"}
-              </button>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => setImage(e.target.files[0])}
+                />
+
+                <button
+                  className="upload-btn"
+                  disabled={uploading}
+                  onClick={handleImageUpload}
+                >
+                  {uploading
+                    ? "Uploading..."
+                    : "Upload Picture"}
+                </button>
+
+              </div>
+
             </div>
+
           )}
 
-          {isOwner && (
-            <div className="profile-stats">
-              <p>
-                Requests:
-                {requests.length}
-              </p>
-
-              <p>
-                Services:
-                {services.length}
-              </p>
-
-              <p>
-                Client Jobs:
-                {bookingsAsClient.length}
-              </p>
-
-              <p>
-                Provider Jobs:
-                {bookingsAsProvider.length}
-              </p>
-            </div>
-          )}
         </div>
+
       </div>
 
-      <div className="profile-tabs">
-        {isOwner && (
-          <button onClick={() => setActiveTab("overview")}>Overview</button>
-        )}
+    </section>
 
-        <button onClick={() => setActiveTab("requests")}>
-          {isOwner ? "My Requests" : "Requests"}
+    {isOwner && (
+
+      <section className="profile-stat-grid">
+
+        <div className="stat-card">
+          <span className="stat-number">
+            {requests.length}
+          </span>
+
+          <span className="stat-label">
+            Requests
+          </span>
+        </div>
+
+        <div className="stat-card">
+          <span className="stat-number">
+            {services.length}
+          </span>
+
+          <span className="stat-label">
+            Services
+          </span>
+        </div>
+
+        <div className="stat-card">
+          <span className="stat-number">
+            {activeClientJobs.length}
+          </span>
+
+          <span className="stat-label">
+            Client Jobs
+          </span>
+        </div>
+
+        <div className="stat-card">
+          <span className="stat-number">
+            {activeProviderJobs.length}
+          </span>
+
+          <span className="stat-label">
+            Provider Jobs
+          </span>
+        </div>
+
+      </section>
+
+    )}
+
+    <div className="profile-tabs">
+
+      {isOwner && (
+        <button
+          className={activeTab === "overview" ? "active" : ""}
+          onClick={() => setActiveTab("overview")}
+        >
+          Overview
         </button>
+      )}
 
-        {profile.role === "ROLE_PROVIDER" && (
-          <button onClick={() => setActiveTab("services")}>
-            {isOwner ? "My Services" : "Services Offered"}
-          </button>
-        )}
+      <button
+        className={activeTab === "requests" ? "active" : ""}
+        onClick={() => setActiveTab("requests")}
+      >
+        {isOwner ? "My Requests" : "Requests"}
+      </button>
 
-        {isOwner && (
-          <button onClick={() => setActiveTab("activity")}>Activity</button>
-        )}
+      {profile.role === "ROLE_PROVIDER" && (
+        <button
+          className={activeTab === "services" ? "active" : ""}
+          onClick={() => setActiveTab("services")}
+        >
+          {isOwner ? "My Services" : "Services"}
+        </button>
+      )}
+
+      {isOwner && (
+        <button
+          className={activeTab === "activity" ? "active" : ""}
+          onClick={() => setActiveTab("activity")}
+        >
+          Activity
+        </button>
+      )}
+
+    </div>
+
+    <div className="profile-content"></div>
+
+    <div className="profile-content">
+
+  {activeTab === "overview" && isOwner && (
+
+    <div className="overview-grid">
+
+      <div className="overview-card">
+        <h3>Requests Posted</h3>
+        <span>{requests.length}</span>
+        <p>Jobs you've asked the community to help with.</p>
       </div>
 
-      <div className="profile-content">
-        {activeTab === "overview" && isOwner && (
-          <div>
-            <p>
-              Requests Posted:
-              {requests.length}
+      <div className="overview-card">
+        <h3>Services Listed</h3>
+        <span>{services.length}</span>
+        <p>Services you're currently advertising.</p>
+      </div>
+
+      <div className="overview-card">
+        <h3>Active Client Jobs</h3>
+        <span>{activeClientJobs.length}</span>
+        <p>Providers currently working for you.</p>
+      </div>
+
+      <div className="overview-card">
+        <h3>Active Provider Jobs</h3>
+        <span>{activeProviderJobs.length}</span>
+        <p>Jobs you're currently completing.</p>
+      </div>
+
+    </div>
+
+  )}
+
+  {activeTab === "requests" && (
+
+    <div className="profile-card-grid">
+
+      {requests.length === 0 ? (
+
+        <div className="empty-state">
+
+          <h3>No Requests Yet</h3>
+
+          <p>
+            {isOwner
+              ? "You haven't posted any requests yet."
+              : "This user hasn't posted any requests."}
+          </p>
+
+        </div>
+
+      ) : (
+
+        requests.map((r) => (
+
+          <div
+            key={r.id}
+            className="market-card"
+          >
+
+            <div className="market-card-top">
+
+              <span className="category-pill">
+                Request
+              </span>
+
+              <span
+                className={`status-pill ${
+                  r.status?.toUpperCase() === "OPEN"
+                    ? "open"
+                    : "closed"
+                }`}
+              >
+                {r.status}
+              </span>
+
+            </div>
+
+            <h3
+              onClick={() => navigate(`/requests/${r.id}`)}
+              className="clickable-title"
+            >
+              {r.title}
+            </h3>
+
+            <p className="card-description">
+              {r.description}
             </p>
 
-            <p>
-              Services Offered:
-              {services.length}
-            </p>
+            <div className="market-card-footer">
 
-            <p>
-              Active Client Jobs:
-              {activeClientJobs.length}
-            </p>
+              <span className="price">
+                Budget: R{r.budget}
+              </span>
 
-            <p>
-              Active Provider Jobs:
-              {activeProviderJobs.length}
-            </p>
+              <button
+                className="view-btn"
+                onClick={() => navigate(`/requests/${r.id}`)}
+              >
+                View Details →
+              </button>
+
+            </div>
+
           </div>
+
+        ))
+
+      )}
+
+    </div>
+
+  )}
+
+  {activeTab === "services" &&
+    profile.role === "ROLE_PROVIDER" && (
+
+      <div className="profile-card-grid">
+
+        {services.length === 0 ? (
+
+          <div className="empty-state">
+
+            <h3>No Services Listed</h3>
+
+            <p>
+              {isOwner
+                ? "You haven't listed any services yet."
+                : "This provider hasn't listed any services."}
+            </p>
+
+          </div>
+
+        ) : (
+
+          services.map((s) => (
+
+            <div
+              key={s.id}
+              className="market-card"
+            >
+
+              <div className="market-card-top">
+
+                <span className="category-pill">
+                  Service
+                </span>
+
+                <span className="price-tag">
+                  R{s.price}
+                </span>
+
+              </div>
+
+              <h3
+                className="clickable-title"
+                onClick={() => navigate(`/services/${s.id}`)}
+              >
+                {s.title}
+              </h3>
+
+              <p className="card-description">
+                {s.description}
+              </p>
+
+              <div className="market-card-footer">
+
+                <button
+                  className="view-btn"
+                  onClick={() => navigate(`/services/${s.id}`)}
+                >
+                  View Service →
+                </button>
+
+              </div>
+
+            </div>
+
+          ))
+
         )}
 
-        {activeTab === "requests" && (
-          <div>
-            {requests.length === 0 ? (
-              <p>No requests yet</p>
-            ) : (
-              requests.map((r) => (
-                <div key={r.id} className="card">
-                  <h3
-                    onClick={() => navigate(`/requests/${r.id}`)}
-                    style={{
-                      cursor: "pointer",
-                    }}
-                  >
-                    {r.title}
-                  </h3>
+      </div>
 
-                  <p>{r.description}</p>
+  )}
+{activeTab === "activity" && isOwner && (
 
-                  <p>Budget: R{r.budget}</p>
+  <div className="activity-layout">
 
-                  <p>
-                    Status:
-                    {r.status}
-                  </p>
+    <section className="activity-section">
+
+      <div className="section-header">
+        <h2>My Client Jobs</h2>
+        <span>{bookingsAsClient.length} Total</span>
+      </div>
+
+      {bookingsAsClient.length === 0 ? (
+
+        <div className="empty-state">
+          <h3>No Client Activity</h3>
+          <p>
+            Once providers accept your requests, they'll appear here.
+          </p>
+        </div>
+
+      ) : (
+
+        bookingsAsClient.map((b) => (
+
+          <div
+            key={b.id}
+            className="activity-card"
+          >
+
+            <div className="activity-top">
+
+              <h3>{b.requestTitle}</h3>
+
+              <span
+                className={`status-pill ${
+                  isAccepted(b.status)
+                    ? "accepted"
+                    : "pending"
+                }`}
+              >
+                {b.status}
+              </span>
+
+            </div>
+
+            {isAccepted(b.status) ? (
+
+              <div className="activity-info">
+
+                <div>
+                  <strong>Provider</strong>
+                  <p>{b.provider?.name || "Unavailable"}</p>
                 </div>
-              ))
-            )}
-          </div>
-        )}
 
-        {activeTab === "services" && profile.role === "ROLE_PROVIDER" && (
-          <div>
-            {services.length === 0 ? (
-              <p>No services yet</p>
-            ) : (
-              services.map((s) => (
-                <div key={s.id} className="card">
-                  <h3
-                    onClick={() => navigate(`/services/${s.id}`)}
-                    style={{
-                      cursor: "pointer",
-                    }}
-                  >
-                    {s.title}
-                  </h3>
-
-                  <p>{s.description}</p>
-
-                  <p>Price: R{s.price}</p>
+                <div>
+                  <strong>Phone</strong>
+                  <p>{b.provider?.phone || "Unavailable"}</p>
                 </div>
-              ))
+
+              </div>
+
+            ) : (
+
+              <p className="waiting-text">
+                Waiting for provider confirmation.
+              </p>
+
             )}
+
           </div>
-        )}
 
-        {activeTab === "activity" && isOwner && (
-          <div>
-            <h3>As Client</h3>
+        ))
 
-            {bookingsAsClient.map((b) => (
-              <div key={b.id} className="card">
+      )}
+
+    </section>
+
+    {profile.role === "ROLE_PROVIDER" && (
+
+      <section className="activity-section">
+
+        <div className="section-header">
+
+          <h2>My Provider Jobs</h2>
+
+          <span>{bookingsAsProvider.length} Total</span>
+
+        </div>
+
+        {bookingsAsProvider.length === 0 ? (
+
+          <div className="empty-state">
+
+            <h3>No Provider Activity</h3>
+
+            <p>
+              Jobs you accept will appear here.
+            </p>
+
+          </div>
+
+        ) : (
+
+          bookingsAsProvider.map((b) => (
+
+            <div
+              key={b.id}
+              className="activity-card"
+            >
+
+              <div className="activity-top">
+
                 <h3>{b.requestTitle}</h3>
 
-                <p>
-                  Status:
+                <span
+                  className={`status-pill ${
+                    isAccepted(b.status)
+                      ? "accepted"
+                      : "pending"
+                  }`}
+                >
                   {b.status}
+                </span>
+
+              </div>
+
+              {isAccepted(b.status) ? (
+
+                <div className="activity-info">
+
+                  <div>
+                    <strong>Client</strong>
+                    <p>{b.customer?.name || "Unavailable"}</p>
+                  </div>
+
+                  <div>
+                    <strong>Phone</strong>
+                    <p>{b.customer?.phone || "Unavailable"}</p>
+                  </div>
+
+                </div>
+
+              ) : (
+
+                <p className="waiting-text">
+                  Awaiting confirmation.
                 </p>
 
-                {isAccepted(b.status) && (
-                  <div className="success-text">
-                    <p>✔ Active Job</p>
+              )}
 
-                    <p>
-                      Provider:
-                      {b.provider?.name || "No provider"}
-                    </p>
+            </div>
 
-                    <p>
-                      Phone:
-                      {b.provider?.phone || "No phone"}
-                    </p>
-                  </div>
-                )}
-              </div>
-            ))}
+          ))
 
-            {profile.role === "ROLE_PROVIDER" && (
-              <>
-                <h3>As Provider</h3>
-
-                {bookingsAsProvider.map((b) => (
-                  <div key={b.id} className="card">
-                    <h3>{b.requestTitle}</h3>
-
-                    <p>
-                      Status:
-                      {b.status}
-                    </p>
-
-                    {isAccepted(b.status) && (
-                      <div className="success-text">
-                        <p>✔ Active Job</p>
-
-                        <p>
-                          Client:
-                          {b.customer?.name || "No client"}
-                        </p>
-
-                        <p>
-                          Phone:
-                          {b.customer?.phone || "No phone"}
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </>
-            )}
-          </div>
         )}
-      </div>
+
+      </section>
+
+    )}
+
+  </div>
+
+)}
+
     </div>
-  );
+  </div>
+);
 }
