@@ -248,14 +248,15 @@
 
 .results-header{
 
-    background:#F8F5EB;
-
-    border-radius:20px;
+    background:transparent;
 
     border:none;
 
-    box-shadow:
-        0 6px 18px rgba(0,0,0,.05);
+    border-radius:0;
+
+    box-shadow:none;
+
+    padding:0 0 8px 0;
 }
 
 .results-header h4{

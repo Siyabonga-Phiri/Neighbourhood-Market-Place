@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import ProviderCard from "./provider_components/ProviderCard";
 import RequestCard from "./request_components/RequestCard";
-import { AuthContext } from "./context/authContext"; 
+import { AuthContext } from "./context/authContext";
 import "./styles/FeedDashboard.css";
 
 export default function FeedDashboard() {
