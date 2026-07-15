@@ -219,38 +219,54 @@ const navigate = useNavigate();
 
        {/* <h1>Neighbourhood Marketplace</h1>*/}
 
-        <div className="quick-actions">
+      <div className="quick-actions">
 
   {/* Offer a Service */}
-<div
-  className="action-card"
-  onClick={() => {
-    if (user?.role === "ROLE_PROVIDER") {
-      navigate("/services/create"); // Post Service form
-    } else {
-      navigate("/become-provider"); // Become Provider form
-    }
-  }}
->
-  <div className="action-icon">🛠️</div>
-  <h3>Offer a Service</h3>
-  <p>
-    {user?.role === "ROLE_PROVIDER"
-      ? "Create a new service listing."
-      : "Become a provider and start earning."}
-  </p>
-</div>
-
-  {/* Create Request */}
   <div
     className="action-card"
-    onClick={() => navigate("/request")}
+    onClick={() => {
+
+      if (!user) {
+        navigate("/login");
+        return;
+      }
+
+      if (user.role === "ROLE_PROVIDER") {
+        navigate("/services/create");
+      } else {
+        navigate("/provider/register");
+      }
+    }}
+  >
+    <div className="action-icon">🛠️</div>
+    <h3>Offer a Service</h3>
+    <p>
+      {user?.role === "ROLE_PROVIDER"
+        ? "Create a new service listing."
+        : "Become a provider and start earning."}
+    </p>
+  </div>
+
+  {/* Post a Request */}
+  <div
+    className="action-card"
+    onClick={() => {
+
+      if (!user) {
+        navigate("/login");
+        return;
+      }
+
+      navigate("/request");
+
+    }}
   >
     <div className="action-icon">📢</div>
     <h3>Post a Request</h3>
     <p>Looking for help? Let providers find you.</p>
   </div>
 
+  {/* Browse Services */}
   <div
     className="action-card"
     onClick={() => setFeedType("service")}
@@ -261,7 +277,6 @@ const navigate = useNavigate();
   </div>
 
 </div>
-
         <div className="search-bar">
 
           <input
