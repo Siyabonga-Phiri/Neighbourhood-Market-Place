@@ -10,6 +10,7 @@ export default function RequestCard({ request, onDelete }) {
     const navigate = useNavigate();
 
     const [loading, setLoading] = useState(false);
+    const [showMenu, setShowMenu] = useState(false);
     const [responses, setResponses] = useState([]);
     const [proposal, setProposal] = useState("");
 
@@ -345,18 +346,19 @@ return (
                     </strong>
 
                 </div>
+<div className="detail-item">
 
-                <div className="detail-item">
+    <span className="detail-label">
+        Posted
+    </span>
 
-                    <span className="detail-label">
-                        Service
-                    </span>
+    <strong>
+        {request.createdAt
+            ? new Date(request.createdAt).toLocaleDateString()
+            : "Recently"}
+    </strong>
 
-                    <strong>
-                        {request.service}
-                    </strong>
-
-                </div>
+</div>
 
                 <div className="detail-item">
 
@@ -380,7 +382,7 @@ return (
 
                         {request.user?.firstName ||
                             request.user?.name ||
-                            "Client"}
+                            "Comminuty Member "}
 
                     </strong>
 

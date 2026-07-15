@@ -20,7 +20,7 @@ function Header() {
   return (
     <header className="header">
 
-      <h2 className="logo">NeighbourHood Gig</h2>
+      <h2 className="logo">NeighbourHood Marketplace</h2>
 
       <nav>
         <ul>
