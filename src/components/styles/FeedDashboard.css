@@ -17,13 +17,15 @@
     background:
         linear-gradient(
             180deg,
-            #F8F3E7 0%,
-            #F3E8CB 35%,
+            #F8F4E8 0%,
+            #F4EACF 48%,
+            #D9E5AE 60%,
+            #B8CD7F 72%,
             #A9BF76 100%
         );
 
     color:#204A45;
-    padding-bottom:50px;
+    padding-bottom:60px;
 }
 
 /* =========================
@@ -31,18 +33,13 @@
 ========================= */
 .search-section{
 
-    background:linear-gradient(
-        180deg,
-        #F8F4E8 0%,
-        #DDE9B9 35%,
-        #A7C46F 100%
-    );
+    background:transparent;
 
-    padding:40px 30px 130px;
+    padding:40px 30px 70px;
 
     position:relative;
 
-    overflow:hidden;
+    overflow:visible;
 }
 
 .search-section h1{
@@ -54,12 +51,11 @@
     text-align:center;
     margin-bottom:28px;
 }
-
 .search-bar{
 
     max-width:980px;
 
-    margin:auto;
+    margin:30px auto 0;
 
     display:flex;
 
@@ -73,6 +69,10 @@
 
     box-shadow:
         0 10px 24px rgba(0,0,0,.08);
+
+    position:relative;
+
+    z-index:20;
 }
 .search-bar input,
 .search-bar select{
@@ -141,43 +141,33 @@
     flex-wrap:wrap;
 }
 
-.feed-type-filters button,
-.sidebar button{
+.feed-type-filters button{
 
-    border:none;
+    background:#F7F3E8;
 
-    background:#FFFFFF;
+    border:1px solid #DDD4B8;
 
-    color:#204A45;
+    color:#1F5C55;
 
-    border:1px solid #E6DFC8;
+    border-radius:999px;
 
-    padding:11px 20px;
-
-    border-radius:10px;
+    padding:10px 22px;
 
     font-weight:600;
-
-    cursor:pointer;
-
-    transition:.25s;
 }
 
-.feed-type-filters button:hover,
-.sidebar button:hover{
+.feed-type-filters button:hover{
 
-    background:#F5F2E9;
-
-    transform:translateY(-1px);
+    background:#EEE8D7;
 }
 
 .active-filter{
 
-    background:#9EB56A !important;
+    background:#0F5C55 !important;
 
     color:white !important;
 
-    border-color:#9EB56A !important;
+    border-color:#0F5C55 !important;
 }
 
 /* =========================
@@ -187,7 +177,7 @@
 
     max-width:1280px;
 
-    margin:-70px auto 40px;
+    margin:35px auto 40px;
 
     display:grid;
 
@@ -196,10 +186,6 @@
     gap:24px;
 
     padding:0 24px;
-
-    position:relative;
-
-    z-index:5;
 }
 
 /* =========================
@@ -493,16 +479,22 @@
 
     .feed-type-filters{
 
-        justify-content:flex-start;
+    display:flex;
 
-        overflow-x:auto;
+    justify-content:center;
 
-        flex-wrap:nowrap;
+    gap:12px;
 
-        padding:12px 15px 18px;
+    margin-top:-8px;
 
-        scrollbar-width:none;
-    }
+    margin-bottom:28px;
+
+    position:relative;
+
+    z-index:30;
+
+    flex-wrap:wrap;
+}
 
     .feed-type-filters::-webkit-scrollbar{
 
@@ -591,60 +583,62 @@
 
 .quick-actions{
 
-    max-width:1080px;
+    max-width:980px;
 
-    margin:0 auto 30px;
+    margin:-28px auto 40px;
 
     display:grid;
 
     grid-template-columns:repeat(3,1fr);
 
-    gap:18px;
+    gap:14px;
+
+    position:relative;
+
+    z-index:15;
 }
 
 .action-card{
 
-    background:#F6F3E8;
+    background:#AEC97A;
 
     border:none;
 
-    border-radius:22px;
+    border-radius:18px;
 
-    padding:16px;
+    padding:14px 18px;
+
+    min-height:90px;
 
     cursor:pointer;
 
     transition:.25s;
 
-    min-height:120px;
-
     box-shadow:
-        0 8px 18px rgba(0,0,0,.08);
+        0 10px 22px rgba(0,0,0,.08);
 }
 
 .action-card:hover{
 
-    transform:translateY(-4px);
-
-}
-
-.action-card:hover{
+    background:#A0BF69;
 
     transform:translateY(-4px);
 
     box-shadow:
-        0 14px 30px rgba(0,0,0,.08);
+        0 16px 28px rgba(0,0,0,.10);
 }
 
 .action-icon{
 
-    width:44px;
+    width:36px;
 
-    height:44px;
+    height:36px;
 
-    border-radius:12px;
+    border-radius:10px;
 
-    background:#DCE8BE;
+    background:#8EAF57;
+
+    color:white;
 
     display:flex;
 
@@ -652,29 +646,25 @@
 
     justify-content:center;
 
-    font-size:20px;
+    font-size:18px;
 
-    margin-bottom:12px;
+    margin-bottom:8px;
 }
 
 .action-card h3{
 
-    font-size:16px;
+    font-size:15px;
 
-    color:#154E47;
+    color:#173A36;
 
     margin-bottom:4px;
-
-    font-weight:700;
 }
 
 .action-card p{
 
-    font-size:13px;
+    font-size:12px;
 
-    line-height:1.35;
-
-    color:#61736D;
+    color:#35534E;
 }
 
 @media(max-width:768px){
